@@ -1,5 +1,4 @@
-namespace P004.Avaliacao;
-
+using System;
 class App{
     public List<Medico> Medicos => medicos;
     public List<Paciente> Pacientes => pacientes;

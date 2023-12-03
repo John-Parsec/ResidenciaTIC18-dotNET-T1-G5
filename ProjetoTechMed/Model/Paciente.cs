@@ -1,4 +1,4 @@
-namespace P004.Avaliacao;
+using System;
 
 class Paciente : Pessoa{
     public string Sexo {get; set;}

@@ -1,4 +1,4 @@
-namespace P004.Avaliacao;
+using System;
 
 abstract class Pessoa{
     public string Nome {get; set;}
