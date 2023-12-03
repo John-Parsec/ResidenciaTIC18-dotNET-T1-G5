@@ -6,6 +6,7 @@ class App{
     private List<Medico> medicos = new List<Medico>();
     private List<Paciente> pacientes = new List<Paciente>();
 
+#region  Gerencia de Medicos
     public void AdicionarMedico(){
         string nome;
         string cpf;
@@ -60,6 +61,48 @@ class App{
         }
     }
 
+     public void RelatorioMedicosEntre(){
+        int idadeInicio, idadeFim;
+
+        try{
+            Console.Write("Digite a idade inicial: ");
+            idadeInicio = int.Parse(Console.ReadLine()!);
+        }catch (Exception e){
+            Console.WriteLine("Idade inválida!");
+            return;
+        }
+
+        try{
+            Console.Write("Digite a idade final: ");
+            idadeFim = int.Parse(Console.ReadLine()!);
+        }catch (Exception e){
+            Console.WriteLine("Idade inválida!");
+            return;
+        }
+
+        Console.WriteLine("\n--------Relatório Médico Entre--------");
+
+        List<Medico> medicosEntre = medicos.FindAll(m => m.Idade >= idadeInicio && m.Idade <= idadeFim);
+        if (medicosEntre.Count == 0){
+            Console.WriteLine("Nenhum médico encontrado");
+            return;
+        }
+
+        ImprimirMedicos(medicosEntre);
+    }
+
+    public static void ImprimirMedicos(List<Medico> medicos){
+        foreach (Medico m in medicos){
+            Console.Write("Nome: " + m.Nome);
+            Console.Write(" | CPF: " + m.CPF);
+            Console.Write(" | CRM: " + m.CRM);
+            Console.WriteLine(" | Data de Nascimento: " + m.DataNascimento.ToLongDateString());
+            Console.WriteLine(" - Idade: " + m.Idade);
+        }
+    }
+#endregion
+
+#region Gerencia de Pacientes
     public void AdicionarPaciente(){
         string nome;
         string cpf;
@@ -191,45 +234,6 @@ class App{
         }
     }
 
-    public void RelatorioMedicosEntre(){
-        int idadeInicio, idadeFim;
-
-        try{
-            Console.Write("Digite a idade inicial: ");
-            idadeInicio = int.Parse(Console.ReadLine()!);
-        }catch (Exception e){
-            Console.WriteLine("Idade inválida!");
-            return;
-        }
-
-        try{
-            Console.Write("Digite a idade final: ");
-            idadeFim = int.Parse(Console.ReadLine()!);
-        }catch (Exception e){
-            Console.WriteLine("Idade inválida!");
-            return;
-        }
-
-        Console.WriteLine("\n--------Relatório Médico Entre--------");
-
-        List<Medico> medicosEntre = medicos.FindAll(m => m.Idade >= idadeInicio && m.Idade <= idadeFim);
-        if (medicosEntre.Count == 0){
-            Console.WriteLine("Nenhum médico encontrado");
-            return;
-        }
-
-        ImprimirMedicos(medicosEntre);
-    }
-
-    public static void ImprimirMedicos(List<Medico> medicos){
-        foreach (Medico m in medicos){
-            Console.Write("Nome: " + m.Nome);
-            Console.Write(" | CPF: " + m.CPF);
-            Console.Write(" | CRM: " + m.CRM);
-            Console.WriteLine(" | Data de Nascimento: " + m.DataNascimento.ToLongDateString());
-            Console.WriteLine(" - Idade: " + m.Idade);
-        }
-    }
 
     public void RelatorioPacienteSexo(){
         int opc;
@@ -290,6 +294,9 @@ class App{
         ImprimirPacientes(pacientesSintoma);
     }
 
+#endregion
+
+#region  Medicos e Pacientes Aniversariantes
     public void AniversariantesDoMes(){
         Console.WriteLine("--------Relatório Aniversariantes do Mês--------");
 
@@ -309,5 +316,5 @@ class App{
 
         ImprimirPacientes(pacientesAniversariantes);
     }
-
+#endregion
 }
