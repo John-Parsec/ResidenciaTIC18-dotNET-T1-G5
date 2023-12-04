@@ -5,6 +5,7 @@ class Interface{
 #region Menu Principal Do Sistema
    public static void App(){
 
+        
         bool sair = false;
     
         List<string> menuPrincipal = new List<string>{"Menu Pacientes", "Menu Medicos", "Menu Atendimento", "Menu Relatorios", "Sair"};
@@ -61,15 +62,15 @@ class Interface{
         {
             case 1:
                 // Lógica para inserir um paciente
-                Console.WriteLine("Inserindo Paciente...");
+                Request.InserirPaciente();
                 break;
             case 2:
                 // Lógica para remover um paciente
-                Console.WriteLine("Removendo Paciente...");
+                Request.RemoverPaciente();
                 break;
             case 3:
                  // Lógica para listar os pacientes
-                Console.WriteLine("Listando Pacientes...");
+                 Request.ListarPacientes();
                 break;
             case 4:
                 // Lógica para sair

@@ -234,6 +234,25 @@ class App{
         }
     }
 
+    public void ListaDePacientes(){
+       foreach (Paciente p in pacientes){
+            Console.Write("Nome: " + p.Nome);
+            Console.WriteLine(" | CPF: " + p.CPF);
+            Console.WriteLine(" - Sexo: " + p.Sexo);
+            Console.WriteLine(" - Idade: " + p.Idade);
+            Console.WriteLine(" - Data de Nascimento: " + p.DataNascimento.ToLongDateString());
+            Console.WriteLine(" - Sintomas: ");
+
+            if (p.Sintomas.Count == 0){
+                Console.WriteLine("\tNenhum sintoma cadastrado");
+                continue;
+            }else{
+                foreach (string s in p.Sintomas){
+                    Console.WriteLine("\t+ " + s);
+                }
+            }
+       }
+    }
 
     public void RelatorioPacienteSexo(){
         int opc;

@@ -1,12 +1,12 @@
 ﻿using System;
 
- class Program
+ class Program {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
           Interface.App();
-        }
     }
+}
+
 // using System;
 // using System.Globalization;
 // using System.Reflection.Emit;
