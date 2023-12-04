@@ -143,6 +143,10 @@ class App{
         }
     }
 
+    public void RemoverPaciente() {
+        // Implementação...
+    }
+
     public bool ExistePaciente(string cpf){
         if(pacientes.Count == 0)
             return false;

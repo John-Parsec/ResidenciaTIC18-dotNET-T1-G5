@@ -8,7 +8,7 @@ class Interface{
         
         bool sair = false;
     
-        List<string> menuPrincipal = new List<string>{"Menu Pacientes", "Menu Medicos", "Menu Atendimento", "Menu Relatorios", "Sair"};
+        List<string> menuPrincipal = new List<string>{"Menu Pacientes", "Menu Medicos", "Menu Atendimento", "Menu Relatorios"};
     
         while (!sair)
         {
@@ -19,23 +19,25 @@ class Interface{
             
             switch (opcao)
             {
-                case 1:
-                    MenuPacientes();
-                    break;
-                case 2:
-                    MenuMedicos();
-                    break;
-                case 3:
-                    MenuAtendimento();
-                    break;
-                case 4:
-                    MenuRelatorios();
-                    break;
-                case 5:
+                case 0:
                     sair = true;
                     return;
+                case 1:
+                    Interface.MenuPacientes();
+                    break;
+                case 2:
+                    Interface.MenuMedicos();
+                    break;
+                case 3:
+                    Interface.MenuAtendimento();
+                    break;
+                case 4:
+                    Interface.MenuRelatorios();
+                    break;
+                default:
+                    Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                    break;
             }
-            
         }
         
 }
@@ -47,7 +49,7 @@ class Interface{
   public static void MenuPacientes()
 {
     bool sair = false;
-    List<string> menu = new List<string>{ "Inserir Paciente", "Remover Paciente", "Listar Pacientes", "Sair"};
+    List<string> menu = new List<string>{ "Inserir Paciente", "Remover Paciente", "Listar Pacientes"};
    
     while (!sair)
     {
@@ -57,24 +59,31 @@ class Interface{
         Exibir(menu);
         int opcao = ObterOpcao(menu.Count);
         Console.Clear();
-       
+
+        // Declarando instância de App para chamar funcionalidades
+        App app =  new App();
+
         switch (opcao)
         {
+            case 0:
+                // Lógica para sair do programa
+                sair = true;
+                return;
             case 1:
                 // Lógica para inserir um paciente
-                Request.InserirPaciente();
+                app.AdicionarPaciente();
                 break;
             case 2:
                 // Lógica para remover um paciente
-                Request.RemoverPaciente();
+                app.RemoverPaciente();
                 break;
             case 3:
                  // Lógica para listar os pacientes
-                 Request.ListarPacientes();
+                 app.ListaDePacientes();
                 break;
-            case 4:
-                // Lógica para sair
-                return;
+            default:
+                Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                break;
         }
     }
     
@@ -88,7 +97,7 @@ class Interface{
 {
     bool sair = false;
     List<string> menu = new List<string>{
-        "Inserir Médico", "Remover Médico", "Listar Médicos", "Sair"
+        "Inserir Médico", "Remover Médico", "Listar Médicos"
     };
 
     while (!sair)
@@ -97,9 +106,16 @@ class Interface{
          Console.WriteLine("Menu Medicos");
         Exibir(menu);
         int opcao = ObterOpcao(menu.Count);;
+
+        // Declarando instância de App para chamar funcionalidades
+        App app =  new App();
        
         switch (opcao)
         {
+            case 0:
+                // Lógica para sair do programa
+                sair = true;
+                return;
             case 1:
                 // Lógica para inserir um médico
                 Console.WriteLine("Inserindo Médico...");
@@ -112,11 +128,9 @@ class Interface{
                 // Lógica para listar os médicos
                 Console.WriteLine("Listando Médicos...");
                 break;
-            case 4:
-                
-                // Lógica para sair
-                return;
-            
+            default:
+                Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                break;
         }
 
     }
@@ -129,7 +143,7 @@ class Interface{
    public static void MenuAtendimento(){
         bool sair = false;
         List<string> menu = new List<string>{
-            "Inserir Novo Atendimento", "Listar Atendimentos", "Sair"
+            "Inserir Novo Atendimento", "Listar Atendimentos"
         };
 
         while (!sair)
@@ -139,9 +153,16 @@ class Interface{
             Exibir(menu);
             int opcao = ObterOpcao(menu.Count);
             Console.Clear();
+
+            // Declarando instância de App para chamar funcionalidades
+            App app =  new App();
         
             switch (opcao)
             {
+                case 0:
+                    // Lógica para sair do programa
+                    sair = true;
+                    return;
                 case 1:
                     // Lógica para inserir um novo atendimento
                     Console.WriteLine("Inserindo Novo Atendimento...");
@@ -152,9 +173,6 @@ class Interface{
                     Console.WriteLine("Listando Atendimentos...");
                     // Aqui você pode chamar uma função para listar os atendimentos existentes
                     break;
-                case 3:
-                     // Lógica para sair
-                    return;
                 default:
                     Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
                     break;
@@ -178,8 +196,7 @@ class Interface{
         "Atendimentos em aberto em ordem decrescente pela data de início",
         "Médicos em ordem decrescente da quantidade de atendimentos concluídos",
         "Atendimentos cuja suspeita ou diagnóstico final contenha determinada palavra",
-        "Os 10 exames mais utilizados nos atendimentos",
-        "Sair"
+        "Os 10 exames mais utilizados nos atendimentos"
     };
 
     while (!sair)
@@ -189,9 +206,16 @@ class Interface{
         Exibir(menu);
         int opcao = ObterOpcao(menu.Count);
         Console.Clear();
+
+        // Declarando instância de App para chamar funcionalidades
+        App app =  new App();
        
         switch (opcao)
         {
+            case 0:
+                // Lógica para sair do programa
+                sair = true;
+                return;
             case 1:
                 // Lógica para relatório de médicos com idade entre dois valores
                 Console.WriteLine("Gerando relatório de médicos com idade entre dois valores...");
@@ -232,10 +256,6 @@ class Interface{
                 // Lógica para relatório dos 10 exames mais utilizados nos atendimentos
                 Console.WriteLine("Gerando relatório dos 10 exames mais utilizados...");
                 break;
-            case 11:
-                // Lógica para sair
-                 // Lógica para sair
-                return;
             default:
                 Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
                 break;
@@ -253,13 +273,15 @@ class Interface{
         {
             Console.WriteLine($"{i + 1} - {menu[i]}");
         }
+        
+        Console.WriteLine($"0 - Sair");
     }
     
     public static int ObterOpcao(int maxOpcao)
     {
         int opcao;
         Console.Write("Escolha uma opção: ");
-        while (!int.TryParse(Console.ReadLine(), out opcao) || opcao < 1 || opcao > maxOpcao)
+        while (!int.TryParse(Console.ReadLine(), out opcao) || opcao < 0 || opcao > maxOpcao)
         {
             Console.WriteLine("Opção inválida. Escolha uma opção válida.");
             Console.Write("Escolha uma opção: ");
