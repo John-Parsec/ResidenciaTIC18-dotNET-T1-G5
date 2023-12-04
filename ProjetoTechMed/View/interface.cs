@@ -119,14 +119,17 @@ class Interface{
             case 1:
                 // Lógica para inserir um médico
                 Console.WriteLine("Inserindo Médico...");
+                app.AdicionarMedico();
                 break;
             case 2:
                 // Lógica para remover um médico
                 Console.WriteLine("Removendo Médico...");
+                app.RemoverMedico();
                 break;
             case 3:
                 // Lógica para listar os médicos
                 Console.WriteLine("Listando Médicos...");
+                //app.ListaDeMedicos() - não há ainda;
                 break;
             default:
                 Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
@@ -219,42 +222,52 @@ class Interface{
             case 1:
                 // Lógica para relatório de médicos com idade entre dois valores
                 Console.WriteLine("Gerando relatório de médicos com idade entre dois valores...");
+                app.RelatorioMedicosEntre();
                 break;
             case 2:
                 // Lógica para relatório de pacientes com idade entre dois valores
                 Console.WriteLine("Gerando relatório de pacientes com idade entre dois valores...");
+                app.RelatorioPacientesEntre();
                 break;
             case 3:
                 // Lógica para relatório de pacientes do sexo informado
                 Console.WriteLine("Gerando relatório de pacientes pelo sexo informado...");
+                app.RelatorioPacienteSexo();
                 break;
             case 4:
                 // Lógica para relatório de pacientes em ordem alfabética
                 Console.WriteLine("Gerando relatório de pacientes em ordem alfabética...");
+                app.RelatorioPacientesAlfabetico();
                 break;
             case 5:
                 // Lógica para relatório de pacientes cujos sintomas contenham texto informado
                 Console.WriteLine("Gerando relatório de pacientes por sintomas...");
+                app.RelatorioPacienteSintoma();
                 break;
             case 6:
                 // Lógica para relatório de médicos e pacientes aniversariantes do mês informado
                 Console.WriteLine("Gerando relatório de aniversariantes do mês...");
+                app.AniversariantesDoMes();
                 break;
             case 7:
                 // Lógica para relatório de atendimentos em aberto em ordem decrescente pela data de início
                 Console.WriteLine("Gerando relatório de atendimentos em aberto...");
+                
                 break;
             case 8:
                 // Lógica para relatório de médicos em ordem decrescente da quantidade de atendimentos concluídos
                 Console.WriteLine("Gerando relatório de médicos por quantidade de atendimentos...");
+                
                 break;
             case 9:
                 // Lógica para relatório de atendimentos cuja suspeita ou diagnóstico contenha determinada palavra
                 Console.WriteLine("Gerando relatório de atendimentos por palavra chave...");
+                
                 break;
             case 10:
                 // Lógica para relatório dos 10 exames mais utilizados nos atendimentos
                 Console.WriteLine("Gerando relatório dos 10 exames mais utilizados...");
+                
                 break;
             default:
                 Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
@@ -273,7 +286,7 @@ class Interface{
         {
             Console.WriteLine($"{i + 1} - {menu[i]}");
         }
-        
+
         Console.WriteLine($"0 - Sair");
     }
     

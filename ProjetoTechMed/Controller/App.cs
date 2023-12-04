@@ -46,6 +46,10 @@ class App{
         }
     }
 
+    public void RemoverMedico() {
+        // Implementação...
+    }
+
     public bool ExisteMedico(string cpf, string crm){
         if(medicos.Count == 0)
             return false;
