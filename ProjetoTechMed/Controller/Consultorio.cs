@@ -388,7 +388,65 @@ class Consultorio{
             }
     }
 
+    public void AdicionarAtendimento()
+        {
+            Console.WriteLine("-------- Cadastro de Atendimento --------");
 
+            Console.Write("Informe a data de início do atendimento: ");
+            DateTime dataInicio = DateTime.Parse(Console.ReadLine());
+
+            Console.Write("Informe a suspeita do atendimento: ");
+            string suspeita = Console.ReadLine();
+
+            Console.Write("Informe o CRM do médico responsável: ");
+            string crmMedico = Console.ReadLine();
+
+            Console.Write("Informe o CPF do paciente: ");
+            string cpfPaciente = Console.ReadLine();
+      
+            Medico medicoResponsavel = medicos.Find(m => m.CRM == crmMedico);
+            Paciente paciente = pacientes.Find(p => p.CPF == cpfPaciente);
+
+            if (medicoResponsavel == null || paciente == null)
+            {
+                Console.WriteLine("Médico ou paciente não encontrado. Não é possível adicionar o atendimento.");
+                return;
+            }        
+            Atendimento novoAtendimento = new Atendimento(dataInicio, suspeita, medicoResponsavel, paciente);
+            atendimentos.Add(novoAtendimento);
+
+            Console.WriteLine("Atendimento adicionado com sucesso.");
+        }
+
+        public void FinalizarAtendimento()
+        {
+            Console.WriteLine("-------- Finalizar Atendimento --------");
+   
+            Console.Write("Informe o ID do Atendimento a ser finalizado: ");
+            int idAtendimento = int.Parse(Console.ReadLine());
+
+           
+            Atendimento atendimentoFinalizar = atendimentos.FirstOrDefault(a => a.Id == idAtendimento);
+
+            if (atendimentoFinalizar == null)
+            {
+                Console.WriteLine($"Atendimento com ID {idAtendimento} não encontrado. Não é possível finalizar.");
+                return;
+            }
+        
+            if (atendimentoFinalizar.DataFim != DateTime.MinValue)
+            {
+                Console.WriteLine("Atendimento já finalizado anteriormente.");
+                return;
+            }
+       
+            Console.Write("Informe o diagnóstico para o atendimento: ");
+            string diagnostico = Console.ReadLine();
+          
+            atendimentoFinalizar.FinalizarAtendimento(diagnostico);
+
+            Console.WriteLine("Atendimento finalizado com sucesso.");
+        }   
 
     #region  Relatorio de Atendimentos
     // public void AtendimentosEmAberto(){
