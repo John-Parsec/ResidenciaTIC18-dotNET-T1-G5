@@ -3,8 +3,18 @@ class Consultorio{
     public List<Medico> Medicos => medicos;
     public List<Paciente> Pacientes => pacientes;
 
-    private List<Medico> medicos = new List<Medico>();
-    private List<Paciente> pacientes = new List<Paciente>();
+    private List<Medico> medicos =  new List<Medico>
+        {
+            new Medico("Dr. João", new DateTime(1980, 5, 15), "12345678901", "CRM1234"),
+            new Medico("Dra. Maria", new DateTime(1975, 10, 20), "98765432109", "CRM5678")
+        };
+    private List<Paciente> pacientes = new List<Paciente>
+        {
+            new Paciente("Lucas", new DateTime(1990, 8, 25), "98765432101", "Masculino"),
+            new Paciente("Ana", new DateTime(1985, 4, 10), "12345678901", "Feminino")
+        };
+
+    
 
 #region  Gerencia de Medicos
     public void AdicionarMedico(){
@@ -102,6 +112,16 @@ class Consultorio{
             Console.Write(" | CRM: " + m.CRM);
             Console.WriteLine(" | Data de Nascimento: " + m.DataNascimento.ToLongDateString());
             Console.WriteLine(" - Idade: " + m.Idade);
+        }
+    }
+
+    public void ListarMedico(){
+        foreach (Medico medico in medicos){
+            Console.Write("Nome: " + medico.Nome);
+            Console.Write(" | CPF: " + medico.CPF);
+            Console.Write(" | CRM: " + medico.CRM);
+            Console.WriteLine(" | Data de Nascimento: " + medico.DataNascimento.ToLongDateString());
+            Console.WriteLine(" - Idade: " + medico.Idade);
         }
     }
 #endregion
@@ -347,118 +367,119 @@ class Consultorio{
 
 #region Relatorios de Atendimentos
 
-    public void AtendimentosEmAberto(){
-        Console.WriteLine("--------Relatório Atendimentos em Aberto--------");
+    // public void AtendimentosEmAberto(){
+    //     Console.WriteLine("--------Relatório Atendimentos em Aberto--------");
 
-        List<Atendimento> atendimentosEmAberto = atendimentos.FindAll(a => a.DataFim == DateTime.MinValue);
-        if (atendimentosEmAberto.Count == 0){
-            Console.WriteLine("Nenhum atendimento encontrado");
-            return;
-        }
+    //     List<Atendimento> atendimentosEmAberto = atendimentos.FindAll(a => a.DataFim == DateTime.MinValue);
+    //     if (atendimentosEmAberto.Count == 0){
+    //         Console.WriteLine("Nenhum atendimento encontrado");
+    //         return;
+    //     }
 
-        for (int i = 0; i < atendimentosEmAberto.Count; i++){
-            Console.WriteLine($"Atendimento {i+1}");
-            Console.WriteLine(" - Data de Início: " + atendimentosEmAberto[i].DataInicio.ToLongDateString());
-            Console.WriteLine(" - Médico Responsável: " + atendimentosEmAberto[i].Responsavel.Nome);
-            Console.WriteLine(" - Paciente: " + atendimentosEmAberto[i].Paciente.Nome);
-            Console.WriteLine(" - Suspeita: " + atendimentosEmAberto[i].Suspeita);
-            Console.WriteLine(" - Valor Total: " + atendimentosEmAberto[i].ValorTotal);
-            Console.WriteLine(" - Exames: ");
+    //     for (int i = 0; i < atendimentosEmAberto.Count; i++){
+    //         Console.WriteLine($"Atendimento {i+1}");
+    //         Console.WriteLine(" - Data de Início: " + atendimentosEmAberto[i].DataInicio.ToLongDateString());
+    //         Console.WriteLine(" - Médico Responsável: " + atendimentosEmAberto[i].Responsavel.Nome);
+    //         Console.WriteLine(" - Paciente: " + atendimentosEmAberto[i].Paciente.Nome);
+    //         Console.WriteLine(" - Suspeita: " + atendimentosEmAberto[i].Suspeita);
+    //         Console.WriteLine(" - Valor Total: " + atendimentosEmAberto[i].ValorTotal);
+    //         Console.WriteLine(" - Exames: ");
 
-            if (atendimentosEmAberto[i].Exames.Count == 0){
-                Console.WriteLine("\tNenhum exame cadastrado");
-                continue;
-            }else{
-                foreach ((Exame exame, string resultado) in atendimentosEmAberto[i].Exames){
-                    Console.WriteLine("\t+ " + exame.Nome);
-                    Console.WriteLine("\t\t- Resultado: " + resultado);
-                }
-            }
-        }
-    }
+    //         if (atendimentosEmAberto[i].Exames.Count == 0){
+    //             Console.WriteLine("\tNenhum exame cadastrado");
+    //             continue;
+    //         }else{
+    //             foreach ((Exame exame, string resultado) in atendimentosEmAberto[i].Exames){
+    //                 Console.WriteLine("\t+ " + exame.Nome);
+    //                 Console.WriteLine("\t\t- Resultado: " + resultado);
+    //             }
+    //         }
+    //     }
+    // }
 
-    public void MedicosPorAtendimento(){
-        Console.WriteLine("--------Relatório Médicos por Atendimento--------");
+    // public void MedicosPorAtendimento(){
+    //     Console.WriteLine("--------Relatório Médicos por Atendimento--------");
 
-        // List<Medico> medicosPorAtendimento = medicos.OrderBy(m => m.Atendimentos.Count ).ToList();
+    //     // List<Medico> medicosPorAtendimento = medicos.OrderBy(m => m.Atendimentos.Count ).ToList();
 
-        List<Medicos> medicosPorAtendimento = from medico in medicos
-                        join atendimento in atendimentos on medico equals atendimento.Medico
-                        where atendimento.DataFim != DateTime.MinValue
-                        group atendimento by medico into grupo
-                        orderby grupo.Count() descending
-                        select new
-                        {
-                            Medico = grupo.Key,
-                            QuantidadeAtendimentosFinalizados = grupo.Count()
-                        };
+    //     List<Medicosl
+    //     > medicosPorAtendimento = from medico in medicos
+    //                     join atendimento in atendimentos on medico equals atendimento.Medico
+    //                     where atendimento.DataFim != DateTime.MinValue
+    //                     group atendimento by medico into grupo
+    //                     orderby grupo.Count() descending
+    //                     select new
+    //                     {
+    //                         Medico = grupo.Key,
+    //                         QuantidadeAtendimentosFinalizados = grupo.Count()
+    //                     };
 
-        if (medicosPorAtendimento.Count == 0){
-            Console.WriteLine("Nenhum médico encontrado");
-            return;
-        }
+    //     if (medicosPorAtendimento.Count == 0){
+    //         Console.WriteLine("Nenhum médico encontrado");
+    //         return;
+    //     }
 
-        foreach (item in medicosPorAtendimento){
-            Console.WriteLine("Nome: " + item.Medico.Nome);
-            Console.WriteLine(" - Quantidade de Atendimentos: " + item.QuantidadeAtendimentosFinalizados);
-        }
-    }
+    //     foreach (item in medicosPorAtendimento){
+    //         Console.WriteLine("Nome: " + item.Medico.Nome);
+    //         Console.WriteLine(" - Quantidade de Atendimentos: " + item.QuantidadeAtendimentosFinalizados);
+    //     }
+    // }
 
-    public void AtendimentosPorPalavra(){
-        string palavra;
+    // public void AtendimentosPorPalavra(){
+    //     string palavra;
 
-        Console.Write("Digite a palavra: ");
-        palavra = Console.ReadLine()!;
+    //     Console.Write("Digite a palavra: ");
+    //     palavra = Console.ReadLine()!;
 
-        Console.WriteLine($"\n--------Relatório Atendimentos com '{palavra}'--------");
+    //     Console.WriteLine($"\n--------Relatório Atendimentos com '{palavra}'--------");
 
-        List<Atendimento> atendimentosPalavra = atendimentos.FindAll(a => a.Suspeita.Contains(palavra) || a.Diagnostico.Contains(palavra));
-        if (atendimentosPalavra.Count == 0){
-            Console.WriteLine("Nenhum atendimento encontrado");
-            return;
-        }
+    //     List<Atendimento> atendimentosPalavra = atendimentos.FindAll(a => a.Suspeita.Contains(palavra) || a.Diagnostico.Contains(palavra));
+    //     if (atendimentosPalavra.Count == 0){
+    //         Console.WriteLine("Nenhum atendimento encontrado");
+    //         return;
+    //     }
 
-        for (int i = 0; i < atendimentosPalavra.Count; i++){
-            Console.WriteLine($"Atendimento {i+1}");
-            Console.WriteLine(" - Data de Início: " + atendimentosPalavra[i].DataInicio.ToLongDateString());
-            Console.WriteLine(" - Médico Responsável: " + atendimentosPalavra[i].Responsavel.Nome);
-            Console.WriteLine(" - Paciente: " + atendimentosPalavra[i].Paciente.Nome);
-            Console.WriteLine(" - Suspeita: " + atendimentosPalavra[i].Suspeita);
-            Console.WriteLine(" - Valor Total: " + atendimentosPalavra[i].ValorTotal);
-            Console.WriteLine(" - Exames: ");
+    //     for (int i = 0; i < atendimentosPalavra.Count; i++){
+    //         Console.WriteLine($"Atendimento {i+1}");
+    //         Console.WriteLine(" - Data de Início: " + atendimentosPalavra[i].DataInicio.ToLongDateString());
+    //         Console.WriteLine(" - Médico Responsável: " + atendimentosPalavra[i].Responsavel.Nome);
+    //         Console.WriteLine(" - Paciente: " + atendimentosPalavra[i].Paciente.Nome);
+    //         Console.WriteLine(" - Suspeita: " + atendimentosPalavra[i].Suspeita);
+    //         Console.WriteLine(" - Valor Total: " + atendimentosPalavra[i].ValorTotal);
+    //         Console.WriteLine(" - Exames: ");
 
-            if (atendimentosPalavra[i].Exames.Count == 0){
-                Console.WriteLine("\tNenhum exame cadastrado");
-                continue;
-            }else{
-                foreach ((Exame exame, string resultado) in atendimentosPalavra[i].Exames){
-                    Console.WriteLine("\t+ " + exame.Nome);
-                    Console.WriteLine("\t\t- Resultado: " + resultado);
-                }
-            }
-        }
-    }
+    //         if (atendimentosPalavra[i].Exames.Count == 0){
+    //             Console.WriteLine("\tNenhum exame cadastrado");
+    //             continue;
+    //         }else{
+    //             foreach ((Exame exame, string resultado) in atendimentosPalavra[i].Exames){
+    //                 Console.WriteLine("\t+ " + exame.Nome);
+    //                 Console.WriteLine("\t\t- Resultado: " + resultado);
+    //             }
+    //         }
+    //     }
+    // }
 
-    public void ExamesMaisUtilizados(){
-        Console.WriteLine("--------Relatório Exames Mais Utilizados--------");
+    // public void ExamesMaisUtilizados(){
+    //     Console.WriteLine("--------Relatório Exames Mais Utilizados--------");
 
-        List<Exame> examesMaisUtilizados = exames.OrderBy(e => e.Atendimentos.Count).ToList();
-        tam = examesMaisUtilizados.Count;
+    //     List<Exame> examesMaisUtilizados = exames.OrderBy(e => e.Atendimentos.Count).ToList();
+    //     tam = examesMaisUtilizados.Count;
 
-        if (tam == 0){
-            Console.WriteLine("Nenhum exame encontrado");
-            return;
-        }
+    //     if (tam == 0){
+    //         Console.WriteLine("Nenhum exame encontrado");
+    //         return;
+    //     }
 
-        for (int i = 0; i < 10 || i < tam; i++){
-            Console.WriteLine($"Exame {i+1}");
-            Console.WriteLine(" - Nome: " + examesMaisUtilizados[i].Nome);
-            Console.WriteLine(" - Valor: " + examesMaisUtilizados[i].Valor);
-            Console.WriteLine(" - Descrição: " + examesMaisUtilizados[i].Descricao);
-            Console.WriteLine(" - Local: " + examesMaisUtilizados[i].Local);
-            Console.WriteLine(" - Quantidade de Atendimentos: " + examesMaisUtilizados[i].Atendimentos.Count);
-        }
-    }
+    //     for (int i = 0; i < 10 || i < tam; i++){
+    //         Console.WriteLine($"Exame {i+1}");
+    //         Console.WriteLine(" - Nome: " + examesMaisUtilizados[i].Nome);
+    //         Console.WriteLine(" - Valor: " + examesMaisUtilizados[i].Valor);
+    //         Console.WriteLine(" - Descrição: " + examesMaisUtilizados[i].Descricao);
+    //         Console.WriteLine(" - Local: " + examesMaisUtilizados[i].Local);
+    //         Console.WriteLine(" - Quantidade de Atendimentos: " + examesMaisUtilizados[i].Atendimentos.Count);
+    //     }
+    // }
 
 #endregion
 }

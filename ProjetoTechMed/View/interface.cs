@@ -124,6 +124,7 @@ class Interface{
             case 3:
                 // Lógica para listar os médicos
                 Console.WriteLine("Listando Médicos...");
+                consultorio.ListarMedico();
                 //app.ListaDeMedicos() - não há ainda;
                 break;
             default:
