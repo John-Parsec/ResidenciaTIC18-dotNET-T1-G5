@@ -140,7 +140,7 @@ class Interface{
    public static void MenuAtendimento(Consultorio consultorio){
         bool sair = false;
         List<string> menu = new List<string>{
-            "Inserir Novo Atendimento", "Adicionar Exame", "Listar Atendimentos", "Finalizar Atendimento"
+            "Inserir Novo Atendimento", "Adicionar Exame", "Listar Atendimentos", "Finalizar Atendimento", "Remarcar Atendimento"
         };
 
         while (!sair){
@@ -177,6 +177,10 @@ class Interface{
                     // Lógica para finalizar atendimento os atendimentos
                     Console.WriteLine("Listando Atendimentos...");
                     consultorio.FinalizarAtendimento() ;               
+                    break;
+                case 5:
+                    // Lógica para Editar atendimento os atendimentos
+                    consultorio.EditarAtendimento();               
                     break;
                 default:
                     Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
@@ -266,7 +270,7 @@ class Interface{
             case 10:
                 // Lógica para relatório dos 10 exames mais utilizados nos atendimentos
                 Console.WriteLine("Gerando relatório dos 10 exames mais utilizados...");
-                //consultorio.ExamesMaisUtilizados();
+                consultorio.ExamesMaisUtilizados();
                 
                 break;
             default:

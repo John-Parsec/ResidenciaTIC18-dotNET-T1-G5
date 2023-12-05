@@ -541,6 +541,32 @@ class Consultorio{
             Console.WriteLine("Atendimento finalizado com sucesso.");
         }   
 
+       public void EditarAtendimento()
+        {
+            Console.WriteLine("-------- Edição de Atendimento por Nome do Paciente --------");
+   
+            Console.Write("Informe o nome do paciente para editar o atendimento: ");
+            string nomePaciente = Console.ReadLine();
+
+            Atendimento atendimentoEditar = atendimentos.FirstOrDefault(a => a.Paciente.Nome.Equals(nomePaciente, StringComparison.OrdinalIgnoreCase));
+
+            if (atendimentoEditar == null)
+            {
+                Console.WriteLine($"Atendimento para o paciente {nomePaciente} não encontrado. Não é possível editar.");
+                return;
+            }
+
+            Console.Write("Informe a nova data de início do atendimento: ");
+            DateTime novaDataInicio = DateTime.Parse(Console.ReadLine());
+
+            Console.Write("Informe a nova suspeita do atendimento: ");
+            string novaSuspeita = Console.ReadLine();
+
+            atendimentoEditar.DataInicio = novaDataInicio;
+            atendimentoEditar.Suspeita = novaSuspeita;
+
+            Console.WriteLine("Atendimento editado com sucesso.");
+        }
 
 
     #region  Relatorio de Atendimentos
