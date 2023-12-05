@@ -256,16 +256,19 @@ class Interface{
             case 8:
                 // Lógica para relatório de médicos em ordem decrescente da quantidade de atendimentos concluídos
                 Console.WriteLine("Gerando relatório de médicos por quantidade de atendimentos...");
-                
+                Console.Write("Digite o CRM do médico: ");
+                var crm = Console.ReadLine()!;
+                consultorio.MedicosPorAtendimento(crm);
                 break;
             case 9:
                 // Lógica para relatório de atendimentos cuja suspeita ou diagnóstico contenha determinada palavra
                 Console.WriteLine("Gerando relatório de atendimentos por palavra chave...");
-                
+                consultorio.AtendimentosPorPalavra();
                 break;
             case 10:
                 // Lógica para relatório dos 10 exames mais utilizados nos atendimentos
                 Console.WriteLine("Gerando relatório dos 10 exames mais utilizados...");
+                //consultorio.ExamesMaisUtilizados();
                 
                 break;
             default:

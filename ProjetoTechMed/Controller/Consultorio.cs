@@ -556,68 +556,64 @@ class Consultorio{
         }
     }
 
-    // public void MedicosPorAtendimento(){
-    //     Console.WriteLine("--------Relatório Médicos por Atendimento--------");
+    public void MedicosPorAtendimento(string crm)
+    {
+        int contadorAtendimentosConcluidos = 0;
+        Medico medico = medicos.Find(m => m.CRM == crm);
+        if (medico == null)
+        {
+            Console.WriteLine($"Médico com CRM {crm} não encontrado.");
+            return;
+        }
 
-    //     // List<Medico> medicosPorAtendimento = medicos.OrderBy(m => m.Atendimentos.Count ).ToList();
+        foreach (Atendimento atendimento in atendimentos)
+        {
+            if (atendimento.Responsavel == medico)
+            {
+                if (atendimento.DataFim != null)
+                {
+                    contadorAtendimentosConcluidos++;
+                }
+            }
+        }
 
-    //     List<Medicosl
-    //     > medicosPorAtendimento = from medico in medicos
-    //                     join atendimento in atendimentos on medico equals atendimento.Medico
-    //                     where atendimento.DataFim != DateTime.MinValue
-    //                     group atendimento by medico into grupo
-    //                     orderby grupo.Count() descending
-    //                     select new
-    //                     {
-    //                         Medico = grupo.Key,
-    //                         QuantidadeAtendimentosFinalizados = grupo.Count()
-    //                     };
+        Console.WriteLine($"O médico com CRM {crm} concluiu {contadorAtendimentosConcluidos} atendimentos.");
+    }
 
-    //     if (medicosPorAtendimento.Count == 0){
-    //         Console.WriteLine("Nenhum médico encontrado");
-    //         return;
-    //     }
+    public void AtendimentosPorPalavra(){
+        string palavra;
 
-    //     foreach (item in medicosPorAtendimento){
-    //         Console.WriteLine("Nome: " + item.Medico.Nome);
-    //         Console.WriteLine(" - Quantidade de Atendimentos: " + item.QuantidadeAtendimentosFinalizados);
-    //     }
-    // }
+        Console.Write("Digite a palavra: ");
+        palavra = Console.ReadLine()!;
 
-    // public void AtendimentosPorPalavra(){
-    //     string palavra;
+        Console.WriteLine($"\n--------Relatório Atendimentos com '{palavra}'--------");
 
-    //     Console.Write("Digite a palavra: ");
-    //     palavra = Console.ReadLine()!;
+        List<Atendimento> atendimentosPalavra = atendimentos.FindAll(a => a.Suspeita.Contains(palavra) || a.Diagnostico.Contains(palavra));
+        if (atendimentosPalavra.Count == 0){
+            Console.WriteLine("Nenhum atendimento encontrado");
+            return;
+        }
 
-    //     Console.WriteLine($"\n--------Relatório Atendimentos com '{palavra}'--------");
+        for (int i = 0; i < atendimentosPalavra.Count; i++){
+            Console.WriteLine($"Atendimento {i+1}");
+            Console.WriteLine(" - Data de Início: " + atendimentosPalavra[i].DataInicio.ToLongDateString());
+            Console.WriteLine(" - Médico Responsável: " + atendimentosPalavra[i].Responsavel.Nome);
+            Console.WriteLine(" - Paciente: " + atendimentosPalavra[i].Paciente.Nome);
+            Console.WriteLine(" - Suspeita: " + atendimentosPalavra[i].Suspeita);
+            Console.WriteLine(" - Valor Total: " + atendimentosPalavra[i].ValorTotal);
+            Console.WriteLine(" - Exames: ");
 
-    //     List<Atendimento> atendimentosPalavra = atendimentos.FindAll(a => a.Suspeita.Contains(palavra) || a.Diagnostico.Contains(palavra));
-    //     if (atendimentosPalavra.Count == 0){
-    //         Console.WriteLine("Nenhum atendimento encontrado");
-    //         return;
-    //     }
-
-    //     for (int i = 0; i < atendimentosPalavra.Count; i++){
-    //         Console.WriteLine($"Atendimento {i+1}");
-    //         Console.WriteLine(" - Data de Início: " + atendimentosPalavra[i].DataInicio.ToLongDateString());
-    //         Console.WriteLine(" - Médico Responsável: " + atendimentosPalavra[i].Responsavel.Nome);
-    //         Console.WriteLine(" - Paciente: " + atendimentosPalavra[i].Paciente.Nome);
-    //         Console.WriteLine(" - Suspeita: " + atendimentosPalavra[i].Suspeita);
-    //         Console.WriteLine(" - Valor Total: " + atendimentosPalavra[i].ValorTotal);
-    //         Console.WriteLine(" - Exames: ");
-
-    //         if (atendimentosPalavra[i].Exames.Count == 0){
-    //             Console.WriteLine("\tNenhum exame cadastrado");
-    //             continue;
-    //         }else{
-    //             foreach ((Exame exame, string resultado) in atendimentosPalavra[i].Exames){
-    //                 Console.WriteLine("\t+ " + exame.Nome);
-    //                 Console.WriteLine("\t\t- Resultado: " + resultado);
-    //             }
-    //         }
-    //     }
-    // }
+            if (atendimentosPalavra[i].Exames.Count == 0){
+                Console.WriteLine("\tNenhum exame cadastrado");
+                continue;
+            }else{
+                foreach ((Exame exame, string resultado) in atendimentosPalavra[i].Exames){
+                    Console.WriteLine("\t+ " + exame.Nome);
+                    Console.WriteLine("\t\t- Resultado: " + resultado);
+                }
+            }
+        }
+    }
 
     // public void ExamesMaisUtilizados(){
     //     Console.WriteLine("--------Relatório Exames Mais Utilizados--------");
