@@ -1,4 +1,4 @@
-using System;
+namespace AvaliacaoEquipe;
 
 class Medico : Pessoa{
     public string CRM {get; private set;}

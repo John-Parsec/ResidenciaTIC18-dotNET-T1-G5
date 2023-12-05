@@ -1,5 +1,5 @@
-using System;
-class App{
+namespace AvaliacaoEquipe;
+class Consultorio{
     public List<Medico> Medicos => medicos;
     public List<Paciente> Pacientes => pacientes;
 

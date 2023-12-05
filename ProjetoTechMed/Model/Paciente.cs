@@ -1,4 +1,4 @@
-using System;
+namespace AvaliacaoEquipe;
 
 class Paciente : Pessoa{
     public string Sexo {get; set;}

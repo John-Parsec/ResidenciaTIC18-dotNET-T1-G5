@@ -1,10 +1,9 @@
-using System;
+namespace AvaliacaoEquipe;
 using System.Collections.Generic;
 
 class Interface{
 #region Menu Principal Do Sistema
-   public static void App(){
-
+   public static void App(Consultorio consultorio){
         
         bool sair = false;
     
@@ -23,16 +22,16 @@ class Interface{
                     sair = true;
                     return;
                 case 1:
-                    Interface.MenuPacientes();
+                    MenuPacientes(consultorio);
                     break;
                 case 2:
-                    Interface.MenuMedicos();
+                    MenuMedicos(consultorio);
                     break;
                 case 3:
-                    Interface.MenuAtendimento();
+                    MenuAtendimento(consultorio);
                     break;
                 case 4:
-                    Interface.MenuRelatorios();
+                    MenuRelatorios(consultorio);
                     break;
                 default:
                     Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
@@ -46,8 +45,7 @@ class Interface{
 
 #region Menu Pacientes
 
-  public static void MenuPacientes()
-{
+  public static void MenuPacientes(Consultorio consultorio){
     bool sair = false;
     List<string> menu = new List<string>{ "Inserir Paciente", "Remover Paciente", "Listar Pacientes"};
    
@@ -61,7 +59,6 @@ class Interface{
         Console.Clear();
 
         // Declarando instância de App para chamar funcionalidades
-        App app =  new App();
 
         switch (opcao)
         {
@@ -71,15 +68,15 @@ class Interface{
                 return;
             case 1:
                 // Lógica para inserir um paciente
-                app.AdicionarPaciente();
+                consultorio.AdicionarPaciente();
                 break;
             case 2:
                 // Lógica para remover um paciente
-                app.RemoverPaciente();
+                consultorio.RemoverPaciente();
                 break;
             case 3:
                  // Lógica para listar os pacientes
-                 app.ListaDePacientes();
+                 consultorio.ListaDePacientes();
                 break;
             default:
                 Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
@@ -93,7 +90,7 @@ class Interface{
 #endregion
 
 #region Menu Medicos
- public static void MenuMedicos()
+ public static void MenuMedicos(Consultorio consultorio)
 {
     bool sair = false;
     List<string> menu = new List<string>{
@@ -107,8 +104,6 @@ class Interface{
         Exibir(menu);
         int opcao = ObterOpcao(menu.Count);;
 
-        // Declarando instância de App para chamar funcionalidades
-        App app =  new App();
        
         switch (opcao)
         {
@@ -119,12 +114,12 @@ class Interface{
             case 1:
                 // Lógica para inserir um médico
                 Console.WriteLine("Inserindo Médico...");
-                app.AdicionarMedico();
+                consultorio.AdicionarMedico();
                 break;
             case 2:
                 // Lógica para remover um médico
                 Console.WriteLine("Removendo Médico...");
-                app.RemoverMedico();
+                consultorio.RemoverMedico();
                 break;
             case 3:
                 // Lógica para listar os médicos
@@ -137,13 +132,13 @@ class Interface{
         }
 
     }
-    App();
+    App(consultorio);
 }
 
 #endregion
 
 #region Menu Atendimento
-   public static void MenuAtendimento(){
+   public static void MenuAtendimento(Consultorio consultorio){
         bool sair = false;
         List<string> menu = new List<string>{
             "Inserir Novo Atendimento", "Listar Atendimentos"
@@ -157,8 +152,6 @@ class Interface{
             int opcao = ObterOpcao(menu.Count);
             Console.Clear();
 
-            // Declarando instância de App para chamar funcionalidades
-            App app =  new App();
         
             switch (opcao)
             {
@@ -181,12 +174,12 @@ class Interface{
                     break;
             }
         }
-        App();
+        App(consultorio);
     }
 #endregion
 
 #region Menu Relatorios
-    public static void MenuRelatorios()
+    public static void MenuRelatorios(Consultorio consultorio)
 {
     bool sair = false;
     List<string> menu = new List<string>{
@@ -210,8 +203,6 @@ class Interface{
         int opcao = ObterOpcao(menu.Count);
         Console.Clear();
 
-        // Declarando instância de App para chamar funcionalidades
-        App app =  new App();
        
         switch (opcao)
         {
@@ -222,32 +213,32 @@ class Interface{
             case 1:
                 // Lógica para relatório de médicos com idade entre dois valores
                 Console.WriteLine("Gerando relatório de médicos com idade entre dois valores...");
-                app.RelatorioMedicosEntre();
+                consultorio.RelatorioMedicosEntre();
                 break;
             case 2:
                 // Lógica para relatório de pacientes com idade entre dois valores
                 Console.WriteLine("Gerando relatório de pacientes com idade entre dois valores...");
-                app.RelatorioPacientesEntre();
+                consultorio.RelatorioPacientesEntre();
                 break;
             case 3:
                 // Lógica para relatório de pacientes do sexo informado
                 Console.WriteLine("Gerando relatório de pacientes pelo sexo informado...");
-                app.RelatorioPacienteSexo();
+                consultorio.RelatorioPacienteSexo();
                 break;
             case 4:
                 // Lógica para relatório de pacientes em ordem alfabética
                 Console.WriteLine("Gerando relatório de pacientes em ordem alfabética...");
-                app.RelatorioPacientesAlfabetico();
+                consultorio.RelatorioPacientesAlfabetico();
                 break;
             case 5:
                 // Lógica para relatório de pacientes cujos sintomas contenham texto informado
                 Console.WriteLine("Gerando relatório de pacientes por sintomas...");
-                app.RelatorioPacienteSintoma();
+                consultorio.RelatorioPacienteSintoma();
                 break;
             case 6:
                 // Lógica para relatório de médicos e pacientes aniversariantes do mês informado
                 Console.WriteLine("Gerando relatório de aniversariantes do mês...");
-                app.AniversariantesDoMes();
+                consultorio.AniversariantesDoMes();
                 break;
             case 7:
                 // Lógica para relatório de atendimentos em aberto em ordem decrescente pela data de início

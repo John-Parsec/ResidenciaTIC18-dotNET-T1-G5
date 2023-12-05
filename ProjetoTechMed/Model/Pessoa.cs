@@ -1,4 +1,4 @@
-using System;
+namespace AvaliacaoEquipe;
 
 abstract class Pessoa{
     public string Nome {get; set;}
