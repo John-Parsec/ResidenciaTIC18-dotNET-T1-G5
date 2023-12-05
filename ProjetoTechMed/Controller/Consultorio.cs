@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace AvaliacaoEquipe;
 class Consultorio{
     public List<Medico> Medicos => medicos;
@@ -83,6 +85,20 @@ class Consultorio{
         }
     }
 
+    public bool ExisteMedico(string crm){
+        if(medicos.Count == 0)
+            return false;
+        try{
+            Medico p = medicos.Find(p => p.CRM == crm);
+
+            if(p.CRM == crm)
+                return true;
+            else
+                return false;
+        }catch (Exception e){
+            return false;
+        }
+    }
     public void ListarMedicos(){
         ImprimirMedicos(medicos);
     }
@@ -358,50 +374,6 @@ class Consultorio{
 
 #region Gerenciar de Atendimentos
 
-    //Inserir Atendimento
-    public void AdicionarAtendimento(){
-        string cpf;
-        string crm;
-        string suspeita;
-        string diagnostico;
-        DateTime dataInicio;
-        DateTime dataFim;
-
-        Console.WriteLine("--------Cadastro Atendimento--------");
-        Console.Write("Digite o CPF do paciente: ");
-        cpf = Console.ReadLine()!;
-
-        if(!ExistePaciente(cpf)){
-            Console.WriteLine("Paciente não cadastrado!");
-            return;
-        }
-
-        Console.Write("Digite o CRM do médico: ");
-        crm = Console.ReadLine()!;
-
-        if(!ExisteMedico(cpf, crm)){
-            Console.WriteLine("Médico não cadastrado!");
-            return;
-        }
-
-        Console.Write("Digite a suspeita: ");
-        suspeita = Console.ReadLine()!;
-
-        try{
-            Console.Write("Digite a data de início do atendimento: ");
-            dataInicio = DateTime.Parse(Console.ReadLine()!);
-        }catch (Exception e){
-            Console.WriteLine("Data de início inválida!");
-            return;
-        }
-
-        Paciente paciente = pacientes.Find(p => p.CPF == cpf);
-        Medico medico = medicos.Find(m => m.CRM == crm);
-
-        atendimentos.Add(new Atendimento(dataInicio, suspeita, medico, paciente));
-        Console.WriteLine("Atendimento cadastrado com sucesso!");
-    }
-
     //Adicionar Exame
     public void AdicionarExame(){
         string cpf;
@@ -500,7 +472,74 @@ class Consultorio{
             Console.WriteLine("\n");
         }
     }
+    public void AdicionarAtendimento(){
+        DateTime dataInicio;
+        Console.WriteLine("-------- Cadastro de Atendimento --------");
 
+        try{
+            Console.Write("Informe a data de início do atendimento: ");
+            dataInicio = DateTime.Parse(Console.ReadLine()!);
+        }catch (Exception e){
+            Console.WriteLine("Data de início inválida.");
+            return;
+        }
+
+        Console.Write("Informe a suspeita do atendimento: ");
+        string suspeita = Console.ReadLine()!;
+
+        Console.Write("Informe o CRM do médico responsável: ");
+        string crmMedico = Console.ReadLine()!;
+
+        if(!ExisteMedico(crmMedico)){
+            Console.WriteLine("Médico não cadastrado!");
+            return;
+        }
+
+        Console.Write("Informe o CPF do paciente: ");
+        string cpfPaciente = Console.ReadLine()!;
+
+        if(!ExistePaciente(cpfPaciente)){
+            Console.WriteLine("Paciente não cadastrado!");
+            return;
+        }
+    
+        Medico medicoResponsavel = medicos.Find(m => m.CRM == crmMedico);
+        Paciente paciente = pacientes.Find(p => p.CPF == cpfPaciente);
+      
+        Atendimento novoAtendimento = new Atendimento(dataInicio, suspeita, medicoResponsavel, paciente);
+        atendimentos.Add(novoAtendimento);
+
+        Console.WriteLine("Atendimento adicionado com sucesso.");
+    }
+
+    public void FinalizarAtendimento(){
+        Console.WriteLine("-------- Finalizar Atendimento --------");
+
+        Console.Write("Informe o ID do Atendimento a ser finalizado: ");
+        int idAtendimento = int.Parse(Console.ReadLine());
+
+        
+        Atendimento atendimentoFinalizar = atendimentos.FirstOrDefault(a => a.Id == idAtendimento);
+
+        if (atendimentoFinalizar == null)
+        {
+            Console.WriteLine($"Atendimento com ID {idAtendimento} não encontrado. Não é possível finalizar.");
+            return;
+        }
+
+        if (atendimentoFinalizar.DataFim != DateTime.MinValue)
+        {
+            Console.WriteLine("Atendimento já finalizado anteriormente.");
+            return;
+        }
+
+        Console.Write("Informe o diagnóstico para o atendimento: ");
+        string diagnostico = Console.ReadLine();
+        
+        atendimentoFinalizar.FinalizarAtendimento(diagnostico);
+
+        Console.WriteLine("Atendimento finalizado com sucesso.");
+    }   
 
 
 

@@ -140,7 +140,7 @@ class Interface{
    public static void MenuAtendimento(Consultorio consultorio){
         bool sair = false;
         List<string> menu = new List<string>{
-            "Inserir Novo Atendimento", "Listar Atendimentos", "Adicionar Exame"
+            "Inserir Novo Atendimento", "Adicionar Exame", "Listar Atendimentos", "Finalizar Atendimento"
         };
 
         while (!sair){
@@ -163,15 +163,20 @@ class Interface{
                     // Aqui você pode chamar uma função para inserir um novo atendimento
                     break;
                 case 2:
+                    // Lógica para adicionar um exame a um atendimento
+                    consultorio.AdicionarExame();
+                    // Aqui você pode chamar uma função para adicionar um exame a um atendimento
+                    break;
+                case 3:
                     // Lógica para listar os atendimentos
                     consultorio.ListarAtendimentos();
                     // Aqui você pode chamar uma função para listar os atendimentos existentes
                     // consultorio.ListarAtendimentos();
                     break;
-                case 3:
-                    // Lógica para adicionar um exame a um atendimento
-                    consultorio.AdicionarExame();
-                    // Aqui você pode chamar uma função para adicionar um exame a um atendimento
+                case 4:
+                    // Lógica para finalizar atendimento os atendimentos
+                    Console.WriteLine("Listando Atendimentos...");
+                    consultorio.FinalizarAtendimento() ;               
                     break;
                 default:
                     Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");

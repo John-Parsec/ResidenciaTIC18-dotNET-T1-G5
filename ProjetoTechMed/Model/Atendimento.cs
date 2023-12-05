@@ -1,14 +1,21 @@
 namespace AvaliacaoEquipe;
 
 class Atendimento{
-    
-    public DateTime DataInicio {get;}
+     private static int id = 0;
+    public DateTime DataInicio {get; set;}
     public DateTime DataFim {get; private set;}
     public string Suspeita {get; set;}
 
     public float ValorTotal {get; private set;}
 
-
+    public int Id {
+        get{
+            return id;
+        }
+        private set{
+            id++;
+        }
+    }
     public Medico Responsavel {get; set;}
     public Paciente Paciente {get;}
 
@@ -25,7 +32,7 @@ class Atendimento{
         Paciente = paciente;
         Diagnostico = "";
         Exames = new List<(Exame exame, string resultado)>();
-      
+        Id = id;
     }
 
     public void AdicionarExame(Exame exame, string resultado){
