@@ -169,6 +169,7 @@ class Interface{
                     // Lógica para listar os atendimentos
                     Console.WriteLine("Listando Atendimentos...");
                     // Aqui você pode chamar uma função para listar os atendimentos existentes
+                    consultorio.LitarAtendimentos();
                     break;
                 default:
                     Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");

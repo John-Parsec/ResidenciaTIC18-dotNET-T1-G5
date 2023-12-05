@@ -14,6 +14,12 @@ class Consultorio{
             new Paciente("Ana", new DateTime(1985, 4, 10), "12345678901", "Feminino")
         };
 
+     List<Atendimento> atendimentos = new List<Atendimento>
+            {
+                new Atendimento(DateTime.Now, "Dor de cabeça",new Medico("Dr. João", new DateTime(1980, 5, 15), "12345678901", "CRM1234"), new Paciente("Lucas", new DateTime(1990, 8, 25), "98765432101", "Masculino")),
+                new Atendimento(DateTime.Now.AddDays(-3), "Febre", new Medico("Dr. João", new DateTime(1980, 5, 15), "12345678901", "CRM1234"), new Paciente("Ana", new DateTime(1985, 4, 10), "12345678901", "Feminino"))
+                // Adicione mais atendimentos conforme necessário
+            };
     
 
 #region  Gerencia de Medicos
@@ -343,7 +349,7 @@ class Consultorio{
 
 #endregion
 
-#region  Medicos e Pacientes Aniversariantes
+#region  Relatorio de Medicos e Pacientes Aniversariantes
     public void AniversariantesDoMes(){
         Console.WriteLine("--------Relatório Aniversariantes do Mês--------");
 
@@ -365,8 +371,26 @@ class Consultorio{
     }
 #endregion
 
-#region Relatorios de Atendimentos
+#region Gerenciar de Atendimentos
 
+    //Inserir Atendimento
+    
+
+    public void LitarAtendimentos(){
+          // Exibindo os atendimentos
+            foreach (var atendimento in atendimentos)
+            {
+                Console.WriteLine($"Data de Início: {atendimento.DataInicio}");
+                Console.WriteLine($"Suspeita: {atendimento.Suspeita}");
+                Console.WriteLine($"Médico Responsável: {atendimento.Responsavel.Nome}");
+                Console.WriteLine($"Paciente: {atendimento.Paciente.Nome}");
+                Console.WriteLine();
+            }
+    }
+
+
+
+    #region  Relatorio de Atendimentos
     // public void AtendimentosEmAberto(){
     //     Console.WriteLine("--------Relatório Atendimentos em Aberto--------");
 
@@ -480,6 +504,7 @@ class Consultorio{
     //         Console.WriteLine(" - Quantidade de Atendimentos: " + examesMaisUtilizados[i].Atendimentos.Count);
     //     }
     // }
+    #endregion
 
 #endregion
 }
