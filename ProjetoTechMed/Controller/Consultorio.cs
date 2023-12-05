@@ -149,14 +149,26 @@ class Consultorio{
         ImprimirMedicos(medicos);
     }
 
+    public static void ImprimirTodosMedicos(List<Medico> medicos){
+        foreach (Medico m in medicos){
+                Console.Write("Nome: " + m.Nome);
+                Console.Write(" | CPF: " + m.CPF);
+                Console.Write(" | CRM: " + m.CRM);
+                Console.WriteLine(" | Data de Nascimento: " + m.DataNascimento.ToLongDateString());
+                Console.WriteLine(" - Idade: " + m.Idade);
+                Console.WriteLine($" - Vinculo: {(m.Vinculo ? "Vinculado" : "Desvinculado")}");
+        }
+    }
     public static void ImprimirMedicos(List<Medico> medicos){
         foreach (Medico m in medicos){
-            Console.Write("Nome: " + m.Nome);
-            Console.Write(" | CPF: " + m.CPF);
-            Console.Write(" | CRM: " + m.CRM);
-            Console.WriteLine(" | Data de Nascimento: " + m.DataNascimento.ToLongDateString());
-            Console.WriteLine(" - Idade: " + m.Idade);
-            Console.WriteLine($" - Vinculo: {(m.Vinculo ? "Vinculado" : "Desvinculado")}");
+            if(m.Vinculo){
+                Console.Write("Nome: " + m.Nome);
+                Console.Write(" | CPF: " + m.CPF);
+                Console.Write(" | CRM: " + m.CRM);
+                Console.WriteLine(" | Data de Nascimento: " + m.DataNascimento.ToLongDateString());
+                Console.WriteLine(" - Idade: " + m.Idade);
+                Console.WriteLine($" - Vinculo: {(m.Vinculo ? "Vinculado" : "Desvinculado")}");
+            }
         }
     }
 # endregion
