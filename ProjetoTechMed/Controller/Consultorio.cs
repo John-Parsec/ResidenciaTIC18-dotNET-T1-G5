@@ -512,29 +512,26 @@ class Consultorio{
         Console.WriteLine("Atendimento adicionado com sucesso.");
     }
 
-    public void FinalizarAtendimento()
-        {
+    public void FinalizarAtendimento(){
             Console.WriteLine("-------- Finalizar Atendimento por Nome do Paciente --------");
 
             Console.Write("Informe o nome do paciente para finalizar o atendimento: ");
-            string nomePaciente = Console.ReadLine();
+            string nomePaciente = Console.ReadLine()!;
 
-            Atendimento atendimentoFinalizar = atendimentos.FirstOrDefault(a => a.Paciente.Nome.Equals(nomePaciente, StringComparison.OrdinalIgnoreCase));
+            Atendimento atendimentoFinalizar = atendimentos.FirstOrDefault(a => a.Paciente.Nome.Equals(nomePaciente, StringComparison.OrdinalIgnoreCase)) ;
 
-            if (atendimentoFinalizar == null)
-            {
+            if (atendimentoFinalizar == null){
                 Console.WriteLine($"Atendimento para o paciente {nomePaciente} não encontrado. Não é possível finalizar.");
                 return;
             }
 
-            if (atendimentoFinalizar.DataFim != DateTime.MinValue)
-            {
+            if (atendimentoFinalizar.DataFim != DateTime.MinValue){
                 Console.WriteLine("Atendimento já finalizado anteriormente.");
                 return;
             }
 
             Console.Write("Informe o diagnóstico para o atendimento: ");
-            string diagnostico = Console.ReadLine();
+            string diagnostico = Console.ReadLine()!;
           
             atendimentoFinalizar.FinalizarAtendimento(diagnostico);
 
@@ -548,18 +545,17 @@ class Consultorio{
         Console.WriteLine("--------Relatório Atendimentos em Aberto--------");
 
         List<Atendimento> atendimentosEmAberto = atendimentos.FindAll(a => a.DataFim == DateTime.MinValue);
-        if (atendimentosEmAberto.Count == 0){
+        if (atendimentosEmAberto.Count() == 0){
             Console.WriteLine("Nenhum atendimento aberto encontrado");
             return;
         }else{
+            atendimentosEmAberto = atendimentosEmAberto.OrderByDescending(a => a.DataInicio).ToList();
             ListarAtendimentos(atendimentosEmAberto);
         }
     }
 
     public void MedicosPorAtendimento(){
         Console.WriteLine("--------Relatório Médicos por Atendimento--------");
-
-        // List<Medico> medicosPorAtendimento = medicos.OrderBy(m => m.Atendimentos.Count ).ToList();
 
         var result = from medico in medicos
                         join atendimento in atendimentos on medico equals atendimento.Responsavel

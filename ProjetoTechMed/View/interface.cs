@@ -266,7 +266,7 @@ class Interface{
             case 10:
                 // Lógica para relatório dos 10 exames mais utilizados nos atendimentos
                 Console.WriteLine("Gerando relatório dos 10 exames mais utilizados...");
-                //consultorio.ExamesMaisUtilizados();
+                consultorio.ExamesMaisUtilizados();
                 
                 break;
             default:
