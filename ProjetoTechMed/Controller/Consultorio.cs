@@ -512,34 +512,34 @@ class Consultorio{
         Console.WriteLine("Atendimento adicionado com sucesso.");
     }
 
-    public void FinalizarAtendimento(){
-        Console.WriteLine("-------- Finalizar Atendimento --------");
-
-        Console.Write("Informe o ID do Atendimento a ser finalizado: ");
-        int idAtendimento = int.Parse(Console.ReadLine());
-
-        
-        Atendimento atendimentoFinalizar = atendimentos.FirstOrDefault(a => a.Id == idAtendimento);
-
-        if (atendimentoFinalizar == null)
+    public void FinalizarAtendimento()
         {
-            Console.WriteLine($"Atendimento com ID {idAtendimento} não encontrado. Não é possível finalizar.");
-            return;
-        }
+            Console.WriteLine("-------- Finalizar Atendimento por Nome do Paciente --------");
 
-        if (atendimentoFinalizar.DataFim != DateTime.MinValue)
-        {
-            Console.WriteLine("Atendimento já finalizado anteriormente.");
-            return;
-        }
+            Console.Write("Informe o nome do paciente para finalizar o atendimento: ");
+            string nomePaciente = Console.ReadLine();
 
-        Console.Write("Informe o diagnóstico para o atendimento: ");
-        string diagnostico = Console.ReadLine();
-        
-        atendimentoFinalizar.FinalizarAtendimento(diagnostico);
+            Atendimento atendimentoFinalizar = atendimentos.FirstOrDefault(a => a.Paciente.Nome.Equals(nomePaciente, StringComparison.OrdinalIgnoreCase));
 
-        Console.WriteLine("Atendimento finalizado com sucesso.");
-    }   
+            if (atendimentoFinalizar == null)
+            {
+                Console.WriteLine($"Atendimento para o paciente {nomePaciente} não encontrado. Não é possível finalizar.");
+                return;
+            }
+
+            if (atendimentoFinalizar.DataFim != DateTime.MinValue)
+            {
+                Console.WriteLine("Atendimento já finalizado anteriormente.");
+                return;
+            }
+
+            Console.Write("Informe o diagnóstico para o atendimento: ");
+            string diagnostico = Console.ReadLine();
+          
+            atendimentoFinalizar.FinalizarAtendimento(diagnostico);
+
+            Console.WriteLine("Atendimento finalizado com sucesso.");
+        }   
 
 
 
