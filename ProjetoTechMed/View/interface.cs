@@ -47,10 +47,9 @@ class Interface{
 
   public static void MenuPacientes(Consultorio consultorio){
     bool sair = false;
-    List<string> menu = new List<string>{ "Inserir Paciente", "Remover Paciente", "Listar Pacientes"};
+    List<string> menu = new List<string>{ "Inserir Paciente", "Adcionar sintoma", "Remover Paciente", "Listar Pacientes"};
    
-    while (!sair)
-    {
+    while (!sair){
         Console.WriteLine("Sistema de Gerenciamento de Consultório Médico");
         Console.WriteLine("Menu  Pacientes");
         
@@ -60,8 +59,7 @@ class Interface{
 
         // Declarando instância de App para chamar funcionalidades
 
-        switch (opcao)
-        {
+        switch (opcao){
             case 0:
                 // Lógica para sair do programa
                 sair = true;
@@ -71,10 +69,14 @@ class Interface{
                 consultorio.AdicionarPaciente();
                 break;
             case 2:
+                // Lógica para adicionar sintoma
+                consultorio.AdicionarSintoma();
+                break;
+            case 3:
                 // Lógica para remover um paciente
                 consultorio.RemoverPaciente();
                 break;
-            case 3:
+            case 4:
                  // Lógica para listar os pacientes
                  consultorio.ListaDePacientes();
                 break;
@@ -90,8 +92,7 @@ class Interface{
 #endregion
 
 #region Menu Medicos
- public static void MenuMedicos(Consultorio consultorio)
-{
+ public static void MenuMedicos(Consultorio consultorio){
     bool sair = false;
     List<string> menu = new List<string>{
         "Inserir Médico", "Remover Médico", "Listar Médicos"
@@ -105,8 +106,7 @@ class Interface{
         int opcao = ObterOpcao(menu.Count);;
 
        
-        switch (opcao)
-        {
+        switch (opcao){
             case 0:
                 // Lógica para sair do programa
                 sair = true;
@@ -119,13 +119,12 @@ class Interface{
             case 2:
                 // Lógica para remover um médico
                 Console.WriteLine("Removendo Médico...");
-                consultorio.RemoverMedico();
+                //consultorio.RemoverMedico();
                 break;
             case 3:
                 // Lógica para listar os médicos
                 Console.WriteLine("Listando Médicos...");
-                consultorio.ListarMedico();
-                //app.ListaDeMedicos() - não há ainda;
+                consultorio.ListarMedicos();
                 break;
             default:
                 Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
@@ -133,7 +132,6 @@ class Interface{
         }
 
     }
-    App(consultorio);
 }
 
 #endregion
@@ -142,11 +140,10 @@ class Interface{
    public static void MenuAtendimento(Consultorio consultorio){
         bool sair = false;
         List<string> menu = new List<string>{
-            "Inserir Novo Atendimento", "Listar Atendimentos"
+            "Inserir Novo Atendimento", "Listar Atendimentos", "Adicionar Exame"
         };
 
-        while (!sair)
-        {
+        while (!sair){
             Console.WriteLine("Sistema de Gerenciamento de Consultório Médico");
             Console.WriteLine("Menu Atendimento");
             Exibir(menu);
@@ -162,21 +159,25 @@ class Interface{
                     return;
                 case 1:
                     // Lógica para inserir um novo atendimento
-                    Console.WriteLine("Inserindo Novo Atendimento...");
+                    consultorio.AdicionarAtendimento();
                     // Aqui você pode chamar uma função para inserir um novo atendimento
                     break;
                 case 2:
                     // Lógica para listar os atendimentos
-                    Console.WriteLine("Listando Atendimentos...");
+                    consultorio.ListarAtendimentos();
                     // Aqui você pode chamar uma função para listar os atendimentos existentes
-                    consultorio.LitarAtendimentos();
+                    // consultorio.ListarAtendimentos();
+                    break;
+                case 3:
+                    // Lógica para adicionar um exame a um atendimento
+                    consultorio.AdicionarExame();
+                    // Aqui você pode chamar uma função para adicionar um exame a um atendimento
                     break;
                 default:
                     Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
                     break;
             }
         }
-        App(consultorio);
     }
 #endregion
 
@@ -245,7 +246,7 @@ class Interface{
             case 7:
                 // Lógica para relatório de atendimentos em aberto em ordem decrescente pela data de início
                 Console.WriteLine("Gerando relatório de atendimentos em aberto...");
-                
+                consultorio.AtendimentosEmAberto();
                 break;
             case 8:
                 // Lógica para relatório de médicos em ordem decrescente da quantidade de atendimentos concluídos

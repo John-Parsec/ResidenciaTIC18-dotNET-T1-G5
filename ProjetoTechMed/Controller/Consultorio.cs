@@ -3,6 +3,8 @@ class Consultorio{
     public List<Medico> Medicos => medicos;
     public List<Paciente> Pacientes => pacientes;
 
+    public List<Atendimento> Atendimentos => atendimentos;
+
     private List<Medico> medicos =  new List<Medico>
         {
             new Medico("Dr. João", new DateTime(1980, 5, 15), "12345678901", "CRM1234"),
@@ -81,7 +83,23 @@ class Consultorio{
         }
     }
 
-     public void RelatorioMedicosEntre(){
+    public void ListarMedicos(){
+        ImprimirMedicos(medicos);
+    }
+
+    public static void ImprimirMedicos(List<Medico> medicos){
+        foreach (Medico m in medicos){
+            Console.Write("Nome: " + m.Nome);
+            Console.Write(" | CPF: " + m.CPF);
+            Console.Write(" | CRM: " + m.CRM);
+            Console.WriteLine(" | Data de Nascimento: " + m.DataNascimento.ToLongDateString());
+            Console.WriteLine(" - Idade: " + m.Idade);
+        }
+    }
+# endregion
+
+#region Relatorios da Atividade 1
+    public void RelatorioMedicosEntre(){
         int idadeInicio, idadeFim;
 
         try{
@@ -111,25 +129,95 @@ class Consultorio{
         ImprimirMedicos(medicosEntre);
     }
 
-    public static void ImprimirMedicos(List<Medico> medicos){
-        foreach (Medico m in medicos){
-            Console.Write("Nome: " + m.Nome);
-            Console.Write(" | CPF: " + m.CPF);
-            Console.Write(" | CRM: " + m.CRM);
-            Console.WriteLine(" | Data de Nascimento: " + m.DataNascimento.ToLongDateString());
-            Console.WriteLine(" - Idade: " + m.Idade);
+    public void RelatorioPacientesEntre(){
+        int idadeInicio, idadeFim;
+
+        try{
+            Console.Write("Digite a idade inicial: ");
+            idadeInicio = int.Parse(Console.ReadLine()!);
+        }catch (Exception e){
+            Console.WriteLine("Idade inválida!");
+            return;
         }
+
+        try{
+            Console.Write("Digite a idade final: ");
+            idadeFim = int.Parse(Console.ReadLine()!);
+        }catch (Exception e){
+            Console.WriteLine("Idade inválida!");
+            return;
+        }
+
+        Console.WriteLine("\n--------Relatório Paciente Entre--------");
+
+        List<Paciente> pacientesEntre = pacientes.FindAll(p => p.Idade >= idadeInicio && p.Idade <= idadeFim);
+        if (pacientesEntre.Count == 0){
+            Console.WriteLine("Nenhum paciente encontrado");
+            return;
+        }
+
+        ImprimirPacientes(pacientesEntre);
     }
 
-    public void ListarMedico(){
-        foreach (Medico medico in medicos){
-            Console.Write("Nome: " + medico.Nome);
-            Console.Write(" | CPF: " + medico.CPF);
-            Console.Write(" | CRM: " + medico.CRM);
-            Console.WriteLine(" | Data de Nascimento: " + medico.DataNascimento.ToLongDateString());
-            Console.WriteLine(" - Idade: " + medico.Idade);
+    public void RelatorioPacienteSexo(){
+        int opc;
+        string sexo;
+
+        Console.WriteLine("1 - Feminino");
+        Console.WriteLine("2 - Masculino");
+        Console.Write("Digite a opção desejada: ");
+
+        try{
+            opc = int.Parse(Console.ReadLine()!);
+        }catch (Exception e){
+            Console.WriteLine("Opção inválida!");
+            return;
         }
+
+        if (opc == 1)
+            sexo = "feminino";
+        else
+            sexo = "masculino";
+    
+        Console.WriteLine($"\n--------Relatório Paciente do Sexo {sexo}--------");
+        List<Paciente> pacientesSexo = pacientes.FindAll(p => p.Sexo == sexo);
+        if (pacientesSexo.Count == 0){
+            Console.WriteLine("Nenhum paciente encontrado");
+            return;
+        }
+
+        ImprimirPacientes(pacientesSexo);
     }
+
+    public void RelatorioPacientesAlfabetico(){
+        Console.WriteLine("--------Relatório Paciente--------");
+
+        List<Paciente> pacientesOrdenados = pacientes.OrderBy(p => p.Nome).ToList();
+        if (pacientesOrdenados.Count == 0){
+            Console.WriteLine("Nenhum paciente encontrado");
+            return;
+        }
+
+        ImprimirPacientes(pacientesOrdenados);
+    }
+
+    public void RelatorioPacienteSintoma(){
+        string sintoma;
+
+        Console.Write("Digite o sintoma: ");
+        sintoma = Console.ReadLine()!;
+
+        Console.WriteLine($"\n--------Relatório Paciente com '{sintoma}'--------");
+
+        List<Paciente> pacientesSintoma = pacientes.FindAll(p => p.Sintomas.Contains(sintoma));
+        if (pacientesSintoma.Count == 0){
+            Console.WriteLine("Nenhum paciente encontrado");
+            return;
+        }
+
+        ImprimirPacientes(pacientesSintoma);
+    }
+
 #endregion
 
 #region Gerencia de Pacientes
@@ -218,35 +306,6 @@ class Consultorio{
         }
     }
 
-    public void RelatorioPacientesEntre(){
-        int idadeInicio, idadeFim;
-
-        try{
-            Console.Write("Digite a idade inicial: ");
-            idadeInicio = int.Parse(Console.ReadLine()!);
-        }catch (Exception e){
-            Console.WriteLine("Idade inválida!");
-            return;
-        }
-
-        try{
-            Console.Write("Digite a idade final: ");
-            idadeFim = int.Parse(Console.ReadLine()!);
-        }catch (Exception e){
-            Console.WriteLine("Idade inválida!");
-            return;
-        }
-
-        Console.WriteLine("\n--------Relatório Paciente Entre--------");
-
-        List<Paciente> pacientesEntre = pacientes.FindAll(p => p.Idade >= idadeInicio && p.Idade <= idadeFim);
-        if (pacientesEntre.Count == 0){
-            Console.WriteLine("Nenhum paciente encontrado");
-            return;
-        }
-
-        ImprimirPacientes(pacientesEntre);
-    }
 
     public static void ImprimirPacientes(List<Paciente> pacientes){
         foreach (Paciente p in pacientes){
@@ -269,85 +328,11 @@ class Consultorio{
     }
 
     public void ListaDePacientes(){
-       foreach (Paciente p in pacientes){
-            Console.Write("Nome: " + p.Nome);
-            Console.WriteLine(" | CPF: " + p.CPF);
-            Console.WriteLine(" - Sexo: " + p.Sexo);
-            Console.WriteLine(" - Idade: " + p.Idade);
-            Console.WriteLine(" - Data de Nascimento: " + p.DataNascimento.ToLongDateString());
-            Console.WriteLine(" - Sintomas: ");
-
-            if (p.Sintomas.Count == 0){
-                Console.WriteLine("\tNenhum sintoma cadastrado");
-                continue;
-            }else{
-                foreach (string s in p.Sintomas){
-                    Console.WriteLine("\t+ " + s);
-                }
-            }
-       }
+       ImprimirPacientes(pacientes);
     }
 
-    public void RelatorioPacienteSexo(){
-        int opc;
-        string sexo;
+# endregion
 
-        Console.WriteLine("1 - Feminino");
-        Console.WriteLine("2 - Masculino");
-        Console.Write("Digite a opção desejada: ");
-
-        try{
-            opc = int.Parse(Console.ReadLine()!);
-        }catch (Exception e){
-            Console.WriteLine("Opção inválida!");
-            return;
-        }
-
-        if (opc == 1)
-            sexo = "feminino";
-        else
-            sexo = "masculino";
-    
-        Console.WriteLine($"\n--------Relatório Paciente do Sexo {sexo}--------");
-        List<Paciente> pacientesSexo = pacientes.FindAll(p => p.Sexo == sexo);
-        if (pacientesSexo.Count == 0){
-            Console.WriteLine("Nenhum paciente encontrado");
-            return;
-        }
-
-        ImprimirPacientes(pacientesSexo);
-    }
-
-    public void RelatorioPacientesAlfabetico(){
-        Console.WriteLine("--------Relatório Paciente--------");
-
-        List<Paciente> pacientesOrdenados = pacientes.OrderBy(p => p.Nome).ToList();
-        if (pacientesOrdenados.Count == 0){
-            Console.WriteLine("Nenhum paciente encontrado");
-            return;
-        }
-
-        ImprimirPacientes(pacientesOrdenados);
-    }
-
-    public void RelatorioPacienteSintoma(){
-        string sintoma;
-
-        Console.Write("Digite o sintoma: ");
-        sintoma = Console.ReadLine()!;
-
-        Console.WriteLine($"\n--------Relatório Paciente com '{sintoma}'--------");
-
-        List<Paciente> pacientesSintoma = pacientes.FindAll(p => p.Sintomas.Contains(sintoma));
-        if (pacientesSintoma.Count == 0){
-            Console.WriteLine("Nenhum paciente encontrado");
-            return;
-        }
-
-        ImprimirPacientes(pacientesSintoma);
-    }
-
-#endregion
 
 #region  Relatorio de Medicos e Pacientes Aniversariantes
     public void AniversariantesDoMes(){
@@ -374,52 +359,163 @@ class Consultorio{
 #region Gerenciar de Atendimentos
 
     //Inserir Atendimento
+    public void AdicionarAtendimento(){
+        string cpf;
+        string crm;
+        string suspeita;
+        string diagnostico;
+        DateTime dataInicio;
+        DateTime dataFim;
+
+        Console.WriteLine("--------Cadastro Atendimento--------");
+        Console.Write("Digite o CPF do paciente: ");
+        cpf = Console.ReadLine()!;
+
+        if(!ExistePaciente(cpf)){
+            Console.WriteLine("Paciente não cadastrado!");
+            return;
+        }
+
+        Console.Write("Digite o CRM do médico: ");
+        crm = Console.ReadLine()!;
+
+        if(!ExisteMedico(cpf, crm)){
+            Console.WriteLine("Médico não cadastrado!");
+            return;
+        }
+
+        Console.Write("Digite a suspeita: ");
+        suspeita = Console.ReadLine()!;
+
+        try{
+            Console.Write("Digite a data de início do atendimento: ");
+            dataInicio = DateTime.Parse(Console.ReadLine()!);
+        }catch (Exception e){
+            Console.WriteLine("Data de início inválida!");
+            return;
+        }
+
+        Paciente paciente = pacientes.Find(p => p.CPF == cpf);
+        Medico medico = medicos.Find(m => m.CRM == crm);
+
+        atendimentos.Add(new Atendimento(dataInicio, suspeita, medico, paciente));
+        Console.WriteLine("Atendimento cadastrado com sucesso!");
+    }
+
+    //Adicionar Exame
+    public void AdicionarExame(){
+        string cpf;
+        string crm;
+        string nomeExame;
+        string descricao;
+        string resultado;
+        string local;
+        float valor;
+
+        Console.WriteLine("--------Adicionar Exame--------");
+        Console.Write("Digite o CPF do paciente: ");
+        cpf = Console.ReadLine()!;
+
+        if(!ExistePaciente(cpf)){
+            Console.WriteLine("Paciente não cadastrado!");
+            return;
+        }
+
+        Console.Write("Digite o CRM do médico: ");
+        crm = Console.ReadLine()!;
+
+        if(!ExisteMedico(cpf, crm)){
+            Console.WriteLine("Médico não cadastrado!");
+            return;
+        }
+
+        int index = atendimentos.FindIndex(a => a.Paciente.CPF == cpf && a.Responsavel.CRM == crm);
+
+        if (index == -1){
+            Console.WriteLine("Atendimento não encontrado!");
+            return;
+        }
+
+        if (atendimentos[index].DataFim != DateTime.MinValue){
+            Console.WriteLine("Atendimento já finalizado!");
+            return;
+        }
+
+        Console.Write("Digite o titulo do Exame: ");
+        nomeExame = Console.ReadLine()!;
+
+        Console.Write("Digite a descrição do Exame: ");
+        descricao = Console.ReadLine()!;
+
+        Console.Write("Digite o local do Exame: ");
+        local = Console.ReadLine()!;
+
+        try{
+            Console.Write("Digite o valor do Exame: ");
+            valor = float.Parse(Console.ReadLine()!);
+        }catch (Exception e){
+            Console.WriteLine("Valor inválido!");
+            return;
+        }
+        
+        Console.Write("Digite o resultado do exame: ");
+        resultado = Console.ReadLine()!;
+
+
+        Exame exame = new Exame(nomeExame, valor, descricao, local);
+        atendimentos[index].AdicionarExame(exame, resultado);
+        Console.WriteLine("Exame adicionado com sucesso!");
+    }
     
 
-    public void LitarAtendimentos(){
-          // Exibindo os atendimentos
-            foreach (var atendimento in atendimentos)
-            {
-                Console.WriteLine($"Data de Início: {atendimento.DataInicio}");
-                Console.WriteLine($"Suspeita: {atendimento.Suspeita}");
-                Console.WriteLine($"Médico Responsável: {atendimento.Responsavel.Nome}");
-                Console.WriteLine($"Paciente: {atendimento.Paciente.Nome}");
-                Console.WriteLine();
+    public void ListarAtendimentos(){
+        ListarAtendimentos(atendimentos);
+    }
+    public void ListarAtendimentos(List<Atendimento> listaAtendimentos){
+        // Exibindo os atendimentos
+        foreach (var atendimento in listaAtendimentos){
+            Console.WriteLine($"Data de Início: {atendimento.DataInicio}");
+            Console.WriteLine($"Suspeita: {atendimento.Suspeita}");
+            Console.WriteLine($"Médico Responsável: {atendimento.Responsavel.Nome}");
+            Console.WriteLine($"Paciente: {atendimento.Paciente.Nome}");
+            Console.WriteLine($"Valor Total: {atendimento.ValorTotal}");
+            if (atendimento.Diagnostico == ""){
+                Console.WriteLine($"Data de Fim: Não finalizado");
+                Console.WriteLine($"Diagnóstico: Não concluído");
+            }else{
+                Console.WriteLine($"Data de Fim: {atendimento.DataFim}");
+                Console.WriteLine($"Diagnóstico: {atendimento.Diagnostico}");
             }
+            Console.WriteLine(" - Exames: ");
+
+            if (atendimento.Exames.Count == 0){
+                Console.WriteLine("\tNenhum exame cadastrado");
+                continue;
+            }else{
+                foreach ((Exame exame, string resultado) in atendimento.Exames){
+                    Console.WriteLine("\t+ " + exame.Nome);
+                    Console.WriteLine("\t\t- Resultado: " + resultado);
+                }
+            }
+            Console.WriteLine("\n");
+        }
     }
 
 
 
+
     #region  Relatorio de Atendimentos
-    // public void AtendimentosEmAberto(){
-    //     Console.WriteLine("--------Relatório Atendimentos em Aberto--------");
+    public void AtendimentosEmAberto(){
+        Console.WriteLine("--------Relatório Atendimentos em Aberto--------");
 
-    //     List<Atendimento> atendimentosEmAberto = atendimentos.FindAll(a => a.DataFim == DateTime.MinValue);
-    //     if (atendimentosEmAberto.Count == 0){
-    //         Console.WriteLine("Nenhum atendimento encontrado");
-    //         return;
-    //     }
-
-    //     for (int i = 0; i < atendimentosEmAberto.Count; i++){
-    //         Console.WriteLine($"Atendimento {i+1}");
-    //         Console.WriteLine(" - Data de Início: " + atendimentosEmAberto[i].DataInicio.ToLongDateString());
-    //         Console.WriteLine(" - Médico Responsável: " + atendimentosEmAberto[i].Responsavel.Nome);
-    //         Console.WriteLine(" - Paciente: " + atendimentosEmAberto[i].Paciente.Nome);
-    //         Console.WriteLine(" - Suspeita: " + atendimentosEmAberto[i].Suspeita);
-    //         Console.WriteLine(" - Valor Total: " + atendimentosEmAberto[i].ValorTotal);
-    //         Console.WriteLine(" - Exames: ");
-
-    //         if (atendimentosEmAberto[i].Exames.Count == 0){
-    //             Console.WriteLine("\tNenhum exame cadastrado");
-    //             continue;
-    //         }else{
-    //             foreach ((Exame exame, string resultado) in atendimentosEmAberto[i].Exames){
-    //                 Console.WriteLine("\t+ " + exame.Nome);
-    //                 Console.WriteLine("\t\t- Resultado: " + resultado);
-    //             }
-    //         }
-    //     }
-    // }
+        List<Atendimento> atendimentosEmAberto = atendimentos.FindAll(a => a.DataFim == DateTime.MinValue);
+        if (atendimentosEmAberto.Count == 0){
+            Console.WriteLine("Nenhum atendimento aberto encontrado");
+            return;
+        }else{
+            ListarAtendimentos(atendimentosEmAberto);
+        }
+    }
 
     // public void MedicosPorAtendimento(){
     //     Console.WriteLine("--------Relatório Médicos por Atendimento--------");

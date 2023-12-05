@@ -18,6 +18,7 @@ class Atendimento{
 
     public Atendimento(DateTime dataInicio,string suspeita, Medico responsavel, Paciente paciente){
         DataInicio = dataInicio;
+        DataFim = DateTime.MinValue;
         Suspeita = suspeita;
         ValorTotal = 0;
         Responsavel = responsavel;

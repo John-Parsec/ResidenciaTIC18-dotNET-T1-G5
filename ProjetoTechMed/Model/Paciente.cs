@@ -6,7 +6,7 @@ class Paciente : Pessoa{
 
     public Paciente(string nome, DateTime dataNascimento, string cpf, string sexo) : base(nome, dataNascimento, cpf){
         if (sexo.ToLower() == "masculino" || sexo.ToLower() == "feminino")
-            Sexo = sexo;
+            Sexo = sexo.ToLower();
         else
             throw new Exception("Sexo invalido");
     }
