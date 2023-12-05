@@ -39,7 +39,7 @@ class Consultorio{
         try{
             Console.Write("Digite a data de nascimento do médico: ");
             dataNascimento = DateTime.Parse(Console.ReadLine()!);
-        }catch (Exception e){
+        }catch (Exception){
             Console.WriteLine("Data de nascimento inválida!");
             return;
         }
@@ -66,21 +66,63 @@ class Consultorio{
         }
     }
 
-    public void RemoverMedico() {
+    public bool RemoverMedico() {
         // Implementação...
+        string crm = "";
+        string cpf = "";
+        Console.Write("Digite o CPF ou CRM do médico: ");
+        string resposta = Console.ReadLine()!;
+        if(resposta.Length == 11 && resposta.All(char.IsDigit)){
+            cpf = resposta;
+        }else{
+            crm = resposta;
+        }
+        if(medicos.Count == 0)
+            return false;
+
+        try{
+            Medico p = medicos.Find(p => p.CPF == cpf || p.CRM == crm)!;
+
+            if(p.CPF == cpf || p.CRM == crm){
+                // Verificar se o medico esta vinculado
+                if(!p.Vinculo){
+                    Console.WriteLine("Médico ja não é vinculado !!");
+                    return false;
+                }
+                Console.WriteLine($"Deseja Realmente Desvincular o médico {p.Nome} ?(sim ou nao)");
+                Console.WriteLine("OBS: Qualquer resposta que não seja sim, não irá Desvincular o Médico !!");
+                Console.Write("Resposta: ");
+                resposta = Console.ReadLine()!;
+                if(resposta == "sim"){
+                    p.Desvincular();
+                    Console.WriteLine("Médico Desvinculado com sucesso !!");
+                    return true;
+                }
+                Console.WriteLine("Operação cancelada pelo usuário !!");
+                return false;
+            }
+            else{
+                Console.WriteLine("Médico não encontrado !!");
+                return false;
+            }
+        }catch (Exception){
+            Console.WriteLine("Voce digitou algo errado ou Médico não encontrado !!");
+            return false;
+        }
     }
 
     public bool ExisteMedico(string cpf, string crm){
         if(medicos.Count == 0)
             return false;
         try{
-            Medico p = medicos.Find(p => p.CPF == cpf || p.CRM == crm);
+            Medico p = medicos.Find(p => p.CPF == cpf || p.CRM == crm)!;
 
-            if(p.CPF == cpf || p.CRM == crm)
+            if(p.CPF == cpf || p.CRM == crm){
                 return true;
+            }
             else
                 return false;
-        }catch (Exception e){
+        }catch (Exception){
             return false;
         }
     }
@@ -89,13 +131,17 @@ class Consultorio{
         if(medicos.Count == 0)
             return false;
         try{
-            Medico p = medicos.Find(p => p.CRM == crm);
-
-            if(p.CRM == crm)
+            Medico p = medicos.Find(p => p.CRM == crm)!;
+            if(p.CRM == crm){
+                // Verificar se o medico esta vinculado
+                // if(!p.Vinculo){
+                //     return false;
+                // }
                 return true;
+            }
             else
                 return false;
-        }catch (Exception e){
+        }catch (Exception){
             return false;
         }
     }
@@ -110,6 +156,7 @@ class Consultorio{
             Console.Write(" | CRM: " + m.CRM);
             Console.WriteLine(" | Data de Nascimento: " + m.DataNascimento.ToLongDateString());
             Console.WriteLine(" - Idade: " + m.Idade);
+            Console.WriteLine($" - Vinculo: {(m.Vinculo ? "Vinculado" : "Desvinculado")}");
         }
     }
 # endregion
@@ -121,7 +168,7 @@ class Consultorio{
         try{
             Console.Write("Digite a idade inicial: ");
             idadeInicio = int.Parse(Console.ReadLine()!);
-        }catch (Exception e){
+        }catch (Exception){
             Console.WriteLine("Idade inválida!");
             return;
         }
@@ -129,7 +176,7 @@ class Consultorio{
         try{
             Console.Write("Digite a idade final: ");
             idadeFim = int.Parse(Console.ReadLine()!);
-        }catch (Exception e){
+        }catch (Exception){
             Console.WriteLine("Idade inválida!");
             return;
         }
@@ -151,7 +198,7 @@ class Consultorio{
         try{
             Console.Write("Digite a idade inicial: ");
             idadeInicio = int.Parse(Console.ReadLine()!);
-        }catch (Exception e){
+        }catch (Exception){
             Console.WriteLine("Idade inválida!");
             return;
         }
@@ -159,7 +206,7 @@ class Consultorio{
         try{
             Console.Write("Digite a idade final: ");
             idadeFim = int.Parse(Console.ReadLine()!);
-        }catch (Exception e){
+        }catch (Exception){
             Console.WriteLine("Idade inválida!");
             return;
         }
@@ -185,7 +232,7 @@ class Consultorio{
 
         try{
             opc = int.Parse(Console.ReadLine()!);
-        }catch (Exception e){
+        }catch (Exception){
             Console.WriteLine("Opção inválida!");
             return;
         }
@@ -250,7 +297,7 @@ class Consultorio{
         try{
             Console.Write("Digite a data de nascimento do paciente: ");
             dataNascimento = DateTime.Parse(Console.ReadLine()!);
-        }catch (Exception e){
+        }catch (Exception){
             Console.WriteLine("Data de nascimento inválida!");
             return;
         }
@@ -285,12 +332,12 @@ class Consultorio{
         if(pacientes.Count == 0)
             return false;
         try{
-            Paciente? p = pacientes.Find(p => p.CPF == cpf);
+            Paciente? p = pacientes.Find(p => p.CPF == cpf)!;
             if(p.CPF == cpf)
                 return true;
             else
                 return false;
-        }catch (Exception e){
+        }catch (Exception){
             return false;
         }
     }
@@ -311,7 +358,7 @@ class Consultorio{
         Console.Write("Digite o sintoma: ");
         sintoma = Console.ReadLine()!;
 
-        Paciente p = pacientes.Find(p => p.CPF == cpf);
+        Paciente p = pacientes.Find(p => p.CPF == cpf)!;
 
         if (p.Sintomas.Contains(sintoma)){
             Console.WriteLine("Sintoma já cadastrado!");
@@ -425,7 +472,7 @@ class Consultorio{
         try{
             Console.Write("Digite o valor do Exame: ");
             valor = float.Parse(Console.ReadLine()!);
-        }catch (Exception e){
+        }catch (Exception){
             Console.WriteLine("Valor inválido!");
             return;
         }
@@ -479,7 +526,7 @@ class Consultorio{
         try{
             Console.Write("Informe a data de início do atendimento: ");
             dataInicio = DateTime.Parse(Console.ReadLine()!);
-        }catch (Exception e){
+        }catch (Exception){
             Console.WriteLine("Data de início inválida.");
             return;
         }
@@ -503,8 +550,8 @@ class Consultorio{
             return;
         }
     
-        Medico medicoResponsavel = medicos.Find(m => m.CRM == crmMedico);
-        Paciente paciente = pacientes.Find(p => p.CPF == cpfPaciente);
+        Medico medicoResponsavel = medicos.Find(m => m.CRM == crmMedico)!;
+        Paciente paciente = pacientes.Find(p => p.CPF == cpfPaciente)!;
       
         Atendimento novoAtendimento = new Atendimento(dataInicio, suspeita, medicoResponsavel, paciente);
         atendimentos.Add(novoAtendimento);
@@ -518,7 +565,7 @@ class Consultorio{
             Console.Write("Informe o nome do paciente para finalizar o atendimento: ");
             string nomePaciente = Console.ReadLine()!;
 
-            Atendimento atendimentoFinalizar = atendimentos.FirstOrDefault(a => a.Paciente.Nome.Equals(nomePaciente, StringComparison.OrdinalIgnoreCase)) ;
+            Atendimento atendimentoFinalizar = atendimentos.FirstOrDefault(a => a.Paciente.Nome.Equals(nomePaciente, StringComparison.OrdinalIgnoreCase))!;
 
             if (atendimentoFinalizar == null){
                 Console.WriteLine($"Atendimento para o paciente {nomePaciente} não encontrado. Não é possível finalizar.");
@@ -543,9 +590,9 @@ class Consultorio{
             Console.WriteLine("-------- Edição de Atendimento por Nome do Paciente --------");
    
             Console.Write("Informe o nome do paciente para editar o atendimento: ");
-            string nomePaciente = Console.ReadLine();
+            string nomePaciente = Console.ReadLine()!;
 
-            Atendimento atendimentoEditar = atendimentos.FirstOrDefault(a => a.Paciente.Nome.Equals(nomePaciente, StringComparison.OrdinalIgnoreCase));
+            Atendimento atendimentoEditar = atendimentos.FirstOrDefault(a => a.Paciente.Nome.Equals(nomePaciente, StringComparison.OrdinalIgnoreCase))!;
 
             if (atendimentoEditar == null)
             {
@@ -554,10 +601,10 @@ class Consultorio{
             }
 
             Console.Write("Informe a nova data de início do atendimento: ");
-            DateTime novaDataInicio = DateTime.Parse(Console.ReadLine());
+            DateTime novaDataInicio = DateTime.Parse(Console.ReadLine()!);
 
             Console.Write("Informe a nova suspeita do atendimento: ");
-            string novaSuspeita = Console.ReadLine();
+            string novaSuspeita = Console.ReadLine()!;
 
             atendimentoEditar.DataInicio = novaDataInicio;
             atendimentoEditar.Suspeita = novaSuspeita;
