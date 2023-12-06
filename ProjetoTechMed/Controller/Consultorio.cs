@@ -427,26 +427,38 @@ class Consultorio{
     }
 
 
-    public static void ImprimirPacientes(List<Paciente> pacientes){
-        foreach (Paciente p in pacientes){
-            Console.Write("Nome: " + p.Nome);
-            Console.WriteLine(" | CPF: " + p.CPF);
-            Console.WriteLine(" - Sexo: " + p.Sexo);
-            Console.WriteLine(" - Idade: " + p.Idade);
-            Console.WriteLine(" - Plano: " + p.Plano.Titulo);
-            Console.WriteLine(" - Data de Nascimento: " + p.DataNascimento.ToLongDateString());
-            Console.WriteLine(" - Sintomas: ");
+    public static void ImprimirPacientes(List<Paciente> pacientes)
+{
+    if (pacientes == null || pacientes.Count == 0)
+    {
+        Console.WriteLine("Nenhum paciente encontrado.");
+        return;
+    }
 
-            if (p.Sintomas.Count == 0){
-                Console.WriteLine("\tNenhum sintoma cadastrado");
-                continue;
-            }else{
-                foreach (string s in p.Sintomas){
-                    Console.WriteLine("\t+ " + s);
-                }
+    foreach (Paciente p in pacientes)
+    {
+        Console.Write("Nome: " + p.Nome);
+        Console.WriteLine(" | CPF: " + p.CPF);
+        Console.WriteLine(" - Sexo: " + p.Sexo);
+        Console.WriteLine(" - Idade: " + p.Idade);
+        Console.WriteLine(" - Data de Nascimento: " + p.DataNascimento.ToLongDateString());
+        Console.WriteLine(" - Sintomas: ");
+
+        if (p.Sintomas.Count == 0)
+        {
+            Console.WriteLine("\tNenhum sintoma cadastrado");
+            continue;
+        }
+        else
+        {
+            foreach (string s in p.Sintomas)
+            {
+                Console.WriteLine("\t+ " + s);
             }
         }
     }
+}
+
 
     public void ListaDePacientes(){
        ImprimirPacientes(pacientes);
