@@ -7,10 +7,15 @@ class Consultorio{
 
     public List<Atendimento> Atendimentos => atendimentos;
 
+    public List<Plano> Planos => planos;
+
+
     private List<Medico> medicos =  new List<Medico>();
     private List<Paciente> pacientes = new List<Paciente>();
 
-    List<Atendimento> atendimentos = new List<Atendimento>();
+    private List<Atendimento> atendimentos = new List<Atendimento>();
+
+    private List<Plano> planos = new List<Plano>();
     
 
 #region  Gerencia de Medicos
@@ -749,6 +754,34 @@ class Consultorio{
         }
     }
     #endregion
+
+    # region Plano
+    public void AssociaPlano(){
+        Console.WriteLine("--------Associação de Plano--------");
+        System.Console.WriteLine("Digite o CPF do paciente: ");
+        string cpf = Console.ReadLine()!;
+
+        if(!ExistePaciente(cpf)){
+            Console.WriteLine("Paciente não cadastrado!");
+            return;
+        }
+
+        System.Console.WriteLine("Digite o nome do plano: ");
+        string nomePlano = Console.ReadLine()!;
+
+        plano = planos.Find(p => p.Nome == nomePlano)!;
+
+        if (plano == null){
+            Console.WriteLine("Plano não encontrado!");
+            return;
+        }else{
+            int index = pacientes.FindIndex(p => p.CPF == cpf)!;
+            pacientes[index].AdicionarPlano(plano);
+            Console.WriteLine("Plano associado com sucesso!");
+        }
+    }
+
+    # endregion
 
 #endregion
 }
