@@ -16,7 +16,29 @@ class Consultorio{
     private List<Atendimento> atendimentos = new List<Atendimento>();
 
     private List<PlanoSaude> planos = new List<PlanoSaude>();
-    
+
+#region Gerenciar Plano
+    public void AdicionarPlano(){
+        string titulo;
+        double valor;
+
+        Console.WriteLine("Digite o nome do Plano: ");
+        titulo = Console.ReadLine()!;
+        Console.WriteLine("Digite o valor do Plano: ");
+        valor = double.Parse(Console.ReadLine()!);
+
+        PlanoSaude novo_plano = new PlanoSaude(titulo,valor);
+        planos.Add(novo_plano);
+
+    }
+
+    public void ListarPlanos(){
+        foreach (var item in planos)
+        {
+            Console.WriteLine($"Plano: {item.Titulo}\n,Valor:{item.ValorMes}");
+        }
+    }
+#endregion
 
 #region  Gerencia de Medicos
     public void AdicionarMedico(){
