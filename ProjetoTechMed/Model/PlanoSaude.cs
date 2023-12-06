@@ -4,15 +4,16 @@ public class PlanoSaude{
     public string? Titulo {get; set;}
 
     private double valorMes {get; set;}
+    
     public double ValorMes { 
         get {
-            return ValorMes;
+            return valorMes;
         }
         set {
             if(value <= 0){
                 throw new Exception("Valor do plano não pode ser negativo");
             }
-            
+
             valorMes = value;
         }
     }

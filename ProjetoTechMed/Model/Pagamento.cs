@@ -12,27 +12,31 @@ class Pagamento
             Console.WriteLine($"Mensagem de erro: {error.Message}");
         }
     }
-    public string Tipo { 
-        get { return Tipo; } 
+
+    private string? tipo { get; set; }
+    public string? Tipo { 
+        get { return tipo; } 
         private set
         {
             if ( value != "cartao" && value != "boleto" && value != "dinheiro" ) {
                 throw new Exception("Insira um tipo válido.");
             } else {
-                Tipo = value;
+                tipo = value;
             }
         }
     }
     public string? Descricao { get; protected set; }
+
+    private double valorBruto { get; set;}
     public double ValorBruto 
     {
-        get { return ValorBruto; } 
+        get { return valorBruto; } 
         protected set
         {
             if ( value <= 0 ) {
                 throw new Exception("Insira um valor maior que 0.");
             } else {
-                ValorBruto = value;
+                valorBruto = value;
             }
         }
     }
