@@ -7,11 +7,39 @@ class Consultorio{
 
     public List<Atendimento> Atendimentos => atendimentos;
 
+    public List<PlanoSaude> Planos => planos;
+
+    private List<Pagamento> pagamentos = new List<Pagamento>();
+
     private List<Medico> medicos =  new List<Medico>();
     private List<Paciente> pacientes = new List<Paciente>();
 
-    List<Atendimento> atendimentos = new List<Atendimento>();
-    
+    private List<Atendimento> atendimentos = new List<Atendimento>();
+
+    private List<PlanoSaude> planos = new List<PlanoSaude>();
+
+#region Gerenciar Plano
+    public void AdicionarPlano(){
+        string titulo;
+        double valor;
+
+        Console.WriteLine("Digite o nome do Plano: ");
+        titulo = Console.ReadLine()!;
+        Console.WriteLine("Digite o valor do Plano: ");
+        valor = double.Parse(Console.ReadLine()!);
+
+        PlanoSaude novo_plano = new PlanoSaude(titulo,valor);
+        planos.Add(novo_plano);
+
+    }
+
+    public void ListarPlanos(){
+        foreach (var item in planos)
+        {
+            Console.WriteLine($"Plano: {item.Titulo}\n,Valor:{item.ValorMes}");
+        }
+    }
+#endregion
 
 #region  Gerencia de Medicos
     public void AdicionarMedico(){
@@ -127,6 +155,29 @@ class Consultorio{
             return false;
         }
     }
+
+    public void ListarPagamentosPorPaciente()
+    {
+        try {
+            string cpf;
+            Paciente paciente;
+
+            Console.Write("Digite o CPF do paciente: ");
+            cpf = Console.ReadLine()!;
+
+            paciente = pacientes.Find(item => item.CPF == cpf)!;
+
+            if (paciente == null) {
+                throw new Exception($"O paciente de CPF {cpf} não está cadastrado.");
+            }
+
+            paciente.ListarPagamentos();
+        } 
+        catch (Exception error) {
+            Console.WriteLine($"{error.Message}");
+        }
+    }
+    
     public void ListarMedicos(){
         ImprimirMedicos(medicos);
     }
@@ -299,23 +350,33 @@ class Consultorio{
         
         Console.Write("Digite o CPF do paciente: ");
         cpf = Console.ReadLine()!;
-
-        Console.Write("Digite o sexo do paciente (feminino/masculino): ");
-        sexo = Console.ReadLine()!;
-
-        try{
-            Paciente p = new Paciente(nome, dataNascimento, cpf, sexo);
-        }catch (Exception e){
-            Console.WriteLine(e.Message);
-            return;
-        }
-
+        
         if(ExistePaciente(cpf)){
             Console.WriteLine("Paciente já cadastrado!");
             return;
-        }else{
-            pacientes.Add(new Paciente(nome, dataNascimento, cpf, sexo));
+        }
+        
+        Console.Write("Digite o sexo do paciente (feminino/masculino): ");
+        sexo = Console.ReadLine()!.ToLower();
+
+        Console.Write("Digite o nome do plano: ");
+        string nomePlano = Console.ReadLine()!;
+
+        var plano = planos.Find(p => p.Titulo == nomePlano)!;
+
+        if (plano == null){
+            Console.WriteLine("Plano não encontrado!");
+            return;
+        }
+
+        try{
+            Paciente p = new Paciente(nome, dataNascimento, cpf, sexo, plano);
+
+            pacientes.Add(p);
             Console.WriteLine("Paciente cadastrado com sucesso!");
+        }catch (Exception e){
+            Console.WriteLine(e.Message);
+            return;
         }
     }
 
@@ -333,7 +394,7 @@ class Consultorio{
             cpf = Console.ReadLine()!;
 
             if ( ExistePaciente(cpf) ) {
-                Paciente paciente = pacientes.Find(item => item.CPF == cpf);
+                Paciente paciente = pacientes.Find(item => item.CPF == cpf)!;
                 
                 pacientes.Remove(paciente);
                 Console.WriteLine($"Paciente removido com sucesso!");
@@ -387,24 +448,37 @@ class Consultorio{
 
 
     public static void ImprimirPacientes(List<Paciente> pacientes){
-        foreach (Paciente p in pacientes){
-            Console.Write("Nome: " + p.Nome);
-            Console.WriteLine(" | CPF: " + p.CPF);
-            Console.WriteLine(" - Sexo: " + p.Sexo);
-            Console.WriteLine(" - Idade: " + p.Idade);
-            Console.WriteLine(" - Data de Nascimento: " + p.DataNascimento.ToLongDateString());
-            Console.WriteLine(" - Sintomas: ");
+    if (pacientes == null || pacientes.Count == 0)
+    {
+        Console.WriteLine("Nenhum paciente encontrado.");
+        return;
+    }
 
-            if (p.Sintomas.Count == 0){
-                Console.WriteLine("\tNenhum sintoma cadastrado");
-                continue;
-            }else{
-                foreach (string s in p.Sintomas){
-                    Console.WriteLine("\t+ " + s);
-                }
+    foreach (Paciente p in pacientes)
+    {
+        Console.Write("Nome: " + p.Nome);
+        Console.WriteLine(" | CPF: " + p.CPF);
+        Console.WriteLine(" - Sexo: " + p.Sexo);
+        Console.WriteLine(" - Idade: " + p.Idade);
+        Console.WriteLine(" - Plano: " + p.Plano.Titulo);
+        Console.WriteLine(" - Data de Nascimento: " + p.DataNascimento.ToLongDateString());
+        Console.WriteLine(" - Sintomas: ");
+
+        if (p.Sintomas.Count == 0)
+        {
+            Console.WriteLine("\tNenhum sintoma cadastrado");
+            continue;
+        }
+        else
+        {
+            foreach (string s in p.Sintomas)
+            {
+                Console.WriteLine("\t+ " + s);
             }
         }
     }
+}
+
 
     public void ListaDePacientes(){
        ImprimirPacientes(pacientes);
@@ -749,6 +823,97 @@ class Consultorio{
         }
     }
     #endregion
+
+    # region Plano
+    public void AssociaPlano(){
+        Console.WriteLine("--------Mudança/Associação de Plano--------");
+        System.Console.WriteLine("Digite o CPF do paciente: ");
+        string cpf = Console.ReadLine()!;
+
+        if(!ExistePaciente(cpf)){
+            Console.WriteLine("Paciente não cadastrado!");
+            return;
+        }
+
+        System.Console.WriteLine("Digite o nome do plano: ");
+        string nomePlano = Console.ReadLine()!;
+
+        var plano = planos.Find(p => p.Titulo == nomePlano)!;
+
+        if (plano == null) {
+                Console.WriteLine("Plano não encontrado!");
+                return;
+        }
+
+        try {
+            int index = pacientes.FindIndex(p => p.CPF == cpf)!;
+            pacientes[index].AdicionarPlano(plano);
+            Console.WriteLine("Plano associado com sucesso!");
+        } catch (Exception error) {
+            Console.WriteLine($"{error.Message}");
+        }
+    }
+
+    # endregion
+
+    # region Pagamento
+
+    public void AdicionarPagamento(){
+        int tipo;
+        Console.WriteLine("--------Adicionar Pagamento--------");
+        Console.Write("Digite o CPF do paciente: ");
+        string cpf = Console.ReadLine()!;
+
+        if(!ExistePaciente(cpf)){
+            Console.WriteLine("Paciente não cadastrado!");
+            return;
+        }
+
+        int index = pacientes.FindIndex(p => p.CPF == cpf)!;
+
+        var valor = pacientes[index].Plano.ValorMes;
+
+        Console.WriteLine("1. Cartão de Credito");
+        Console.WriteLine("2. Boleto");
+        Console.WriteLine("3. Dinheiro");
+
+        Console.Write("Digite o tipo de pagamento: ");
+        try{
+            tipo = int.Parse(Console.ReadLine()!);
+
+            if (tipo < 1 || tipo > 3){
+                Console.WriteLine("Tipo de pagamento inválido!");
+                throw new Exception();
+            }
+        }catch (Exception){
+            Console.WriteLine("Tipo de pagamento inválido!");
+            return;
+        }
+
+        Console.Write("Digite o desconto: ");
+        double desconto;
+        try{
+            desconto = double.Parse(Console.ReadLine()!);
+        }catch (Exception){
+            Console.WriteLine("Desconto inválido!");
+            desconto = 0;
+        }
+        
+
+        Pagamento pagamento;
+        if (tipo == 1)
+            pagamento = new Pagamento("cartao", valor, $"Pagamento {pacientes[index].Pagamentos.Count}", desconto);
+        else if (tipo == 2)
+            pagamento = new Pagamento("boleto", valor, $"Pagamento {pacientes[index].Pagamentos.Count}", desconto);
+        else
+            pagamento = new Pagamento("dinheiro", valor, $"Pagamento {pacientes[index].Pagamentos.Count}", desconto);
+        
+        pacientes[index].AdicionarPagamento(pagamento);
+
+
+    }
+
+    # endregion
 
 #endregion
 }
