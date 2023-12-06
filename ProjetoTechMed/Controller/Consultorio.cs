@@ -769,7 +769,7 @@ class Consultorio{
         System.Console.WriteLine("Digite o nome do plano: ");
         string nomePlano = Console.ReadLine()!;
 
-        var plano = planos.Find(p => p.Nome == nomePlano)!;
+        var plano = planos.Find(p => p.Titulo == nomePlano)!;
 
         if (plano == null){
             Console.WriteLine("Plano não encontrado!");

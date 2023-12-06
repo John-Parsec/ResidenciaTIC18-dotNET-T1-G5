@@ -1,7 +1,7 @@
 namespace AvaliacaoEquipe;
 
 public class PlanoSaude{
-    private string? Titulo {get; set;}
+    public string? Titulo {get; set;}
     private double ValorMes { 
         get {
             return ValorMes;
