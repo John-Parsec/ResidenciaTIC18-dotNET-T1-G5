@@ -3,7 +3,7 @@ namespace AvaliacaoEquipe;
 abstract class Pessoa{
     private string nome;
     public string Nome {
-        get {return nome;} 
+        get {return this.nome;} 
         set {
             string valor_formatado = Capitalize(value.Trim());         
             this.nome = valor_formatado;
