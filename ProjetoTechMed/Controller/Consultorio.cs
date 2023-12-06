@@ -9,6 +9,7 @@ class Consultorio{
 
     public List<PlanoSaude> Planos => planos;
 
+    private List<Pagamento> pagamentos = new List<Pagamento>();
 
     private List<Medico> medicos =  new List<Medico>();
     private List<Paciente> pacientes = new List<Paciente>();
