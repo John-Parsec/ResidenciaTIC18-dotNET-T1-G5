@@ -7,23 +7,10 @@ class Consultorio{
 
     public List<Atendimento> Atendimentos => atendimentos;
 
-    private List<Medico> medicos =  new List<Medico>
-        {
-            new Medico("Dr. João", new DateTime(1980, 5, 15), "12345678901", "CRM1234"),
-            new Medico("Dra. Maria", new DateTime(1975, 10, 20), "98765432109", "CRM5678")
-        };
-    private List<Paciente> pacientes = new List<Paciente>
-        {
-            new Paciente("Lucas", new DateTime(1990, 8, 25), "98765432101", "Masculino"),
-            new Paciente("Ana", new DateTime(1985, 4, 10), "12345678901", "Feminino")
-        };
+    private List<Medico> medicos =  new List<Medico>();
+    private List<Paciente> pacientes = new List<Paciente>();
 
-     List<Atendimento> atendimentos = new List<Atendimento>
-            {
-                new Atendimento(DateTime.Now, "Dor de cabeça",new Medico("Dr. João", new DateTime(1980, 5, 15), "12345678901", "CRM1234"), new Paciente("Lucas", new DateTime(1990, 8, 25), "98765432101", "Masculino")),
-                new Atendimento(DateTime.Now.AddDays(-3), "Febre", new Medico("Dr. João", new DateTime(1980, 5, 15), "12345678901", "CRM1234"), new Paciente("Ana", new DateTime(1985, 4, 10), "12345678901", "Feminino"))
-                // Adicione mais atendimentos conforme necessário
-            };
+    List<Atendimento> atendimentos = new List<Atendimento>();
     
 
 #region  Gerencia de Medicos
@@ -67,7 +54,6 @@ class Consultorio{
     }
 
     public bool RemoverMedico() {
-        // Implementação...
         string crm = "";
         string cpf = "";
         Console.Write("Digite o CPF ou CRM do médico: ");
@@ -133,10 +119,6 @@ class Consultorio{
         try{
             Medico p = medicos.Find(p => p.CRM == crm)!;
             if(p.CRM == crm){
-                // Verificar se o medico esta vinculado
-                // if(!p.Vinculo){
-                //     return false;
-                // }
                 return true;
             }
             else
@@ -240,7 +222,7 @@ class Consultorio{
 
         Console.WriteLine("1 - Feminino");
         Console.WriteLine("2 - Masculino");
-        Console.Write("Digite a opção desejada: ");
+        Console.Write("Número da opção desejada: ");
 
         try{
             opc = int.Parse(Console.ReadLine()!);
@@ -281,6 +263,7 @@ class Consultorio{
 
         Console.Write("Digite o sintoma: ");
         sintoma = Console.ReadLine()!;
+        sintoma = sintoma.ToLower();
 
         Console.WriteLine($"\n--------Relatório Paciente com '{sintoma}'--------");
 
@@ -337,7 +320,28 @@ class Consultorio{
     }
 
     public void RemoverPaciente() {
-        // Implementação...
+        // Verificar se há pacientes cadastrados antes de prosseguir
+        if ( pacientes.Count == 0 ) 
+        {
+            Console.WriteLine($"Não há pacientes cadastrados no momento.");
+        }
+        else
+        {
+            string cpf;
+
+            Console.Write("Digite o CPF do paciente: ");
+            cpf = Console.ReadLine()!;
+
+            if ( ExistePaciente(cpf) ) {
+                Paciente paciente = pacientes.Find(item => item.CPF == cpf);
+                
+                pacientes.Remove(paciente);
+                Console.WriteLine($"Paciente removido com sucesso!");
+            }
+            else {
+                Console.WriteLine($"O paciente de CPF {cpf} não está cadastrado.");
+            }
+        }
     }
 
     public bool ExistePaciente(string cpf){
@@ -411,10 +415,30 @@ class Consultorio{
 
 #region  Relatorio de Medicos e Pacientes Aniversariantes
     public void AniversariantesDoMes(){
+        int mes = 0;
+        bool flag;
+
         Console.WriteLine("--------Relatório Aniversariantes do Mês--------");
 
-        List<Paciente> pacientesAniversariantes = pacientes.FindAll(p => p.DataNascimento.Month == DateTime.Now.Month);
-        List<Medico> medicosAniversariantes = medicos.FindAll(m => m.DataNascimento.Month == DateTime.Now.Month);
+        try {
+            do {
+                Console.Write("Digite o mês (em número): ");
+                mes = int.Parse(Console.ReadLine()!);
+                flag = true;
+
+                if ( mes < 1 || mes > 12 ) {
+                    Console.WriteLine($"Insira um mês válido, entre 1 e 12.");
+                    flag = false;
+                }
+            } while ( !flag );
+        } 
+        catch (Exception) {
+            Console.WriteLine($"Insira um número.");
+            return;
+        }
+        
+        List<Paciente> pacientesAniversariantes = pacientes.FindAll(p => p.DataNascimento.Month == mes);
+        List<Medico> medicosAniversariantes = medicos.FindAll(m => m.DataNascimento.Month == mes);
         
         Console.WriteLine("Médicos--------------------------");
         if (medicosAniversariantes.Count == 0){
@@ -510,10 +534,11 @@ class Consultorio{
             Console.WriteLine($"Médico Responsável: {atendimento.Responsavel.Nome}");
             Console.WriteLine($"Paciente: {atendimento.Paciente.Nome}");
             Console.WriteLine($"Valor Total: {atendimento.ValorTotal}");
-            if (atendimento.Diagnostico == ""){
+
+            if (atendimento.Diagnostico == "") {
                 Console.WriteLine($"Data de Fim: Não finalizado");
                 Console.WriteLine($"Diagnóstico: Não concluído");
-            }else{
+            } else {
                 Console.WriteLine($"Data de Fim: {atendimento.DataFim}");
                 Console.WriteLine($"Diagnóstico: {atendimento.Diagnostico}");
             }
@@ -522,7 +547,7 @@ class Consultorio{
             if (atendimento.Exames.Count == 0){
                 Console.WriteLine("\tNenhum exame cadastrado");
                 continue;
-            }else{
+            } else {
                 foreach ((Exame exame, string resultado) in atendimento.Exames){
                     Console.WriteLine("\t+ " + exame.Nome);
                     Console.WriteLine("\t\t- Resultado: " + resultado);
@@ -669,6 +694,7 @@ class Consultorio{
 
         Console.Write("Digite a palavra: ");
         palavra = Console.ReadLine()!;
+        palavra = palavra.ToLower();
 
         Console.WriteLine($"\n--------Relatório Atendimentos com '{palavra}'--------");
 
@@ -705,22 +731,21 @@ class Consultorio{
         var result = atendimentos.SelectMany(atendimento => atendimento.Exames)
             .GroupBy(exame => exame.Item1.Nome)
             .OrderByDescending(grupo => grupo.Count())
+            .Take(10)
             .Select(grupo => new
             {
                 Exame = grupo.Key,
                 Quantidade = grupo.Count()
             });
 
-        int tam = result.Count();
-
-        if (tam == 0){
+        if (result.Count() == 0){
             Console.WriteLine("Nenhum exame encontrado");
             return;
         }
 
-        for(int i = 0; i < tam || i < 10; i++){
-            Console.WriteLine("Nome: " + result.ElementAt(i).Exame);
-            Console.WriteLine(" - Quantidade de Atendimentos: " + result.ElementAt(i).Quantidade);
+        foreach (var item in result){
+            Console.WriteLine("Nome: " + item.Exame);
+            Console.WriteLine(" - Quantidade de Atendimentos: " + item.Quantidade);
         }
     }
     #endregion

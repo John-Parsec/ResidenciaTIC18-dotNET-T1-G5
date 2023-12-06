@@ -1,7 +1,14 @@
 namespace AvaliacaoEquipe;
 
 abstract class Pessoa{
-    public string Nome {get; set;}
+    private string nome;
+    public string Nome {
+        get {return nome;} 
+        set {
+            string valor_formatado = Capitalize(value.Trim());         
+            this.nome = valor_formatado;
+        }
+    }
     public DateTime DataNascimento {get; set;}
 
     public int Idade => CalcularIdade();
@@ -47,5 +54,14 @@ abstract class Pessoa{
         if (DateTime.Now.DayOfYear < DataNascimento.DayOfYear)
             idade--;
         return idade;
+    }
+
+    private string Capitalize(string value) 
+    {
+        char[] delimitadores = {' '};
+        List<string> names = value.Split(delimitadores).ToList();
+        names = names.Select(name => char.ToUpper(name[0]) + name.Substring(1)).ToList();
+
+        return string.Join(" ", names);
     }
 }

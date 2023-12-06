@@ -8,7 +8,7 @@ class Interface{
         
         bool sair = false;
     
-        List<string> menuPrincipal = new List<string>{"Menu Pacientes", "Menu Medicos", "Menu Atendimento", "Menu Relatorios"};
+        List<string> menuPrincipal = new List<string>{"Menu Pacientes", "Menu Médicos", "Menu Atendimento", "Menu Relatórios"};
     
         while (!sair)
         {
@@ -35,7 +35,7 @@ class Interface{
                     MenuRelatorios(consultorio);
                     break;
                 default:
-                    Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                    NotificarOpcaoInvalida();
                     break;
             }
         }
@@ -48,7 +48,7 @@ class Interface{
 
   public static void MenuPacientes(Consultorio consultorio){
     bool sair = false;
-    List<string> menu = new List<string>{ "Inserir Paciente", "Adcionar sintoma", "Remover Paciente", "Listar Pacientes"};
+    List<string> menu = new List<string>{ "Inserir Paciente", "Adicionar Sintoma", "Remover Paciente", "Listar Pacientes"};
    
     while (!sair){
         Util.limparTela();
@@ -83,7 +83,7 @@ class Interface{
                 // Lógica para remover um paciente
                 Util.limparTela();
                 Util.Logo();
-                // consultorio.RemoverPaciente();
+                consultorio.RemoverPaciente();
                 Util.pausa();
                 break;
             case 4:
@@ -96,7 +96,7 @@ class Interface{
             default:
                 Util.limparTela();
                 Util.Logo();
-                Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                NotificarOpcaoInvalida();
                 Util.pausa();
                 break;
         }
@@ -155,7 +155,7 @@ class Interface{
             default:
                 Util.limparTela();
                 Util.Logo();
-                Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                NotificarOpcaoInvalida();
                 Util.pausa();
                 break;
         }
@@ -227,7 +227,7 @@ class Interface{
                 default:
                     Util.limparTela();
                     Util.Logo();
-                    Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                    NotificarOpcaoInvalida();
                     Util.pausa();
                     break;
             }
@@ -351,7 +351,7 @@ class Interface{
             default:
                 Util.limparTela();
                 Util.Logo();
-                Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                NotificarOpcaoInvalida();
                 Util.pausa();
                 break;
         }
@@ -383,6 +383,11 @@ class Interface{
         }
         return opcao;
     }
+
+    public static void NotificarOpcaoInvalida() {
+        Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+    }
+
+    
 }
 #endregion
-

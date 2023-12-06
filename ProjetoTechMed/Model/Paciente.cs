@@ -8,7 +8,7 @@ class Paciente : Pessoa{
         if (sexo.ToLower() == "masculino" || sexo.ToLower() == "feminino")
             Sexo = sexo.ToLower();
         else
-            throw new Exception("Sexo invalido");
+            throw new Exception("Insira um sexo válido.");
     }
 
     public void AdicionarSintoma(string sintoma){

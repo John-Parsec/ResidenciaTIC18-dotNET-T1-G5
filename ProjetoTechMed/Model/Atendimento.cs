@@ -1,7 +1,7 @@
 namespace AvaliacaoEquipe;
 
 class Atendimento{
-     private static int id = 0;
+    private static int id = 0;
     public DateTime DataInicio {get; set;}
     public DateTime DataFim {get; private set;}
     public string Suspeita {get; set;}
@@ -23,7 +23,7 @@ class Atendimento{
 
     public List<(Exame, string)> Exames {get;}
 
-    public Atendimento(DateTime dataInicio,string suspeita, Medico responsavel, Paciente paciente){
+    public Atendimento(DateTime dataInicio, string suspeita, Medico responsavel, Paciente paciente){
         DataInicio = dataInicio;
         DataFim = DateTime.MinValue;
         Suspeita = suspeita;
@@ -44,10 +44,4 @@ class Atendimento{
         Diagnostico = diagnostico;
         DataFim = DateTime.Now;
     }
-
-    
-
-    
-
-
 }
