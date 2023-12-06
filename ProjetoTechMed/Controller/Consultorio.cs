@@ -7,7 +7,7 @@ class Consultorio{
 
     public List<Atendimento> Atendimentos => atendimentos;
 
-    public List<Plano> Planos => planos;
+    public List<PlanoSaude> Planos => planos;
 
 
     private List<Medico> medicos =  new List<Medico>();
@@ -15,7 +15,7 @@ class Consultorio{
 
     private List<Atendimento> atendimentos = new List<Atendimento>();
 
-    private List<Plano> planos = new List<Plano>();
+    private List<PlanoSaude> planos = new List<PlanoSaude>();
     
 
 #region  Gerencia de Medicos
@@ -769,7 +769,7 @@ class Consultorio{
         System.Console.WriteLine("Digite o nome do plano: ");
         string nomePlano = Console.ReadLine()!;
 
-        plano = planos.Find(p => p.Nome == nomePlano)!;
+        var plano = planos.Find(p => p.Nome == nomePlano)!;
 
         if (plano == null){
             Console.WriteLine("Plano não encontrado!");
