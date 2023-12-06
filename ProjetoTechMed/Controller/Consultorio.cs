@@ -154,6 +154,19 @@ class Consultorio{
             return false;
         }
     }
+
+    public void ListarPagamentosPorPaciente(Paciente paciente)
+    {
+        foreach(Pagamento pgmt in paciente.Pagamentos.ToList())
+        {
+                Console.Write("Tipo: " + pgmt.Tipo);
+                Console.Write(" | Valor bruto: " + pgmt.ValorBruto);
+                Console.Write(" | Descrição: " + pgmt.Descricao);
+                Console.WriteLine(" | Desconto: " + pgmt.Desconto);
+                Console.WriteLine(" - Data e hora: " + pgmt.DataHora.ToString("dd/MM/yyyy HH:mm:ss"));
+        }
+    }
+    
     public void ListarMedicos(){
         ImprimirMedicos(medicos);
     }
