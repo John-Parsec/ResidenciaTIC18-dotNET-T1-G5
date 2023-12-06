@@ -7,11 +7,18 @@ class Paciente : Pessoa{
     public PlanoSaude Plano;
     public List<Pagamento> Pagamentos { get; set; }
 
-    public Paciente(string nome, DateTime dataNascimento, string cpf, string sexo) : base(nome, dataNascimento, cpf){
+    public Paciente(string nome, DateTime dataNascimento, string cpf, string sexo, PlanoSaude plano) : base(nome, dataNascimento, cpf){
         if (sexo.ToLower() == "masculino" || sexo.ToLower() == "feminino")
             Sexo = sexo.ToLower();
         else
             throw new Exception("Insira um sexo válido.");
+
+        if (plano != null)
+            Plano = plano!;
+        else
+            throw new Exception("Plano inválido");
+
+        Pagamentos = new List<Pagamento>();
     }
 
     public void AdicionarSintoma(string sintoma){
