@@ -166,10 +166,15 @@ class Consultorio{
             cpf = Console.ReadLine()!;
 
             paciente = pacientes.Find(item => item.CPF == cpf)!;
+
+            if (paciente == null) {
+                throw new Exception($"O paciente de CPF {cpf} não está cadastrado.");
+            }
+
             paciente.ListarPagamentos();
         } 
         catch (Exception error) {
-            Console.WriteLine($"Aviso: Paciente não encontrado.");
+            Console.WriteLine($"{error.Message}");
         }
     }
     
