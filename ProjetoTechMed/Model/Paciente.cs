@@ -33,4 +33,23 @@ class Paciente : Pessoa{
             throw new Exception("Plano inválido");
         }
     }
+
+    public void ListarPagamentos()
+    {
+        if ( Pagamentos.Count == 0 ) {
+            throw new Exception("Não há pagamentos registrados no momento.");
+        }
+        else 
+        {
+            foreach(Pagamento pgmt in Pagamentos)
+            {
+                    Console.Write("Tipo: " + pgmt.Tipo);
+                    Console.Write(" | Valor bruto: " + pgmt.ValorBruto);
+                    Console.Write(" | Descrição: " + pgmt.Descricao);
+                    Console.WriteLine(" | Desconto: " + pgmt.Desconto);
+                    Console.WriteLine(" - Data e hora: " + pgmt.DataHora.ToString("dd/MM/yyyy HH:mm:ss"));
+            }
+        }
+        
+    }
 }

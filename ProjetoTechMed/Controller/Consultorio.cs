@@ -156,15 +156,20 @@ class Consultorio{
         }
     }
 
-    public void ListarPagamentosPorPaciente(Paciente paciente)
+    public void ListarPagamentosPorPaciente()
     {
-        foreach(Pagamento pgmt in paciente.Pagamentos.ToList())
-        {
-                Console.Write("Tipo: " + pgmt.Tipo);
-                Console.Write(" | Valor bruto: " + pgmt.ValorBruto);
-                Console.Write(" | Descrição: " + pgmt.Descricao);
-                Console.WriteLine(" | Desconto: " + pgmt.Desconto);
-                Console.WriteLine(" - Data e hora: " + pgmt.DataHora.ToString("dd/MM/yyyy HH:mm:ss"));
+        try {
+            string cpf;
+            Paciente paciente;
+
+            Console.Write("Digite o CPF do paciente: ");
+            cpf = Console.ReadLine()!;
+
+            paciente = pacientes.Find(item => item.CPF == cpf);
+            paciente.ListarPagamentos();
+        } 
+        catch (Exception error) {
+            Console.WriteLine($"Aviso: Paciente não encontrado.");
         }
     }
     
