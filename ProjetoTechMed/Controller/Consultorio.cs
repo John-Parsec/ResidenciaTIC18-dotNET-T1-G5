@@ -442,8 +442,7 @@ class Consultorio{
     }
 
 
-    public static void ImprimirPacientes(List<Paciente> pacientes)
-{
+    public static void ImprimirPacientes(List<Paciente> pacientes){
     if (pacientes == null || pacientes.Count == 0)
     {
         Console.WriteLine("Nenhum paciente encontrado.");
