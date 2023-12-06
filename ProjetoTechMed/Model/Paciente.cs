@@ -25,4 +25,12 @@ class Paciente : Pessoa{
         }
         Pagamentos.Add(pagamento);
     }
+
+    public void AdicionarPlano(PlanoSaude plano){
+        if (plano != null){
+            Plano = plano!;
+        }{
+            throw new Exception("Plano inválido");
+        }
+    }
 }
