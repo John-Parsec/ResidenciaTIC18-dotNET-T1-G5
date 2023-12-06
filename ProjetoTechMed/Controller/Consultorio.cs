@@ -783,5 +783,64 @@ class Consultorio{
 
     # endregion
 
+    # region Pagamento
+
+    public void AdicionarPagamento(){
+        int tipo;
+        Console.WriteLine("--------Adicionar Pagamento--------");
+        Console.Write("Digite o CPF do paciente: ");
+        string cpf = Console.ReadLine()!;
+
+        if(!ExistePaciente(cpf)){
+            Console.WriteLine("Paciente não cadastrado!");
+            return;
+        }
+
+        int index = pacientes.FindIndex(p => p.CPF == cpf)!;
+
+        var valor = pacientes[index].Plano.ValorMes;
+
+        Console.WriteLine("1. Cartão de Credito");
+        Console.WriteLine("2. Boleto");
+        Console.WriteLine("3. Dinheiro");
+
+        Console.Write("Digite o tipo de pagamento: ");
+        try{
+            tipo = int.Parse(Console.ReadLine()!);
+
+            if (tipo < 1 || tipo > 3){
+                Console.WriteLine("Tipo de pagamento inválido!");
+                throw new Exception();
+            }
+        }catch (Exception){
+            Console.WriteLine("Tipo de pagamento inválido!");
+            return;
+        }
+
+        Console.Write("Digite o desconto: ");
+        double desconto;
+        try{
+            desconto = double.Parse(Console.ReadLine()!);
+        }catch (Exception){
+            Console.WriteLine("Desconto inválido!");
+            desconto = 0;
+        }
+        
+
+        Pagamento pagamento;
+        if (tipo == 1)
+            pagamento = new Pagamento("cartao", valor, $"Pagamento {pacientes[index].Pagamentos.Count}", desconto);
+        else if (tipo == 2)
+            pagamento = new Pagamento("boleto", valor, $"Pagamento {pacientes[index].Pagamentos.Count}", desconto);
+        else
+            pagamento = new Pagamento("dinheiro", valor, $"Pagamento {pacientes[index].Pagamentos.Count}", desconto);
+        
+        pacientes[index].AdicionarPagamento(pagamento);
+
+
+    }
+
+    # endregion
+
 #endregion
 }
