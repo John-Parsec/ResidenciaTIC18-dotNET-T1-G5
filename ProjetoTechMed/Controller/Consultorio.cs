@@ -432,6 +432,7 @@ class Consultorio{
             Console.WriteLine(" | CPF: " + p.CPF);
             Console.WriteLine(" - Sexo: " + p.Sexo);
             Console.WriteLine(" - Idade: " + p.Idade);
+            Console.WriteLine(" - Plano: " + p.Plano.Titulo);
             Console.WriteLine(" - Data de Nascimento: " + p.DataNascimento.ToLongDateString());
             Console.WriteLine(" - Sintomas: ");
 
