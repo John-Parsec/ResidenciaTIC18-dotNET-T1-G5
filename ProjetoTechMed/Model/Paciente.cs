@@ -4,7 +4,7 @@ class Paciente : Pessoa{
     public string Sexo {get; set;}
     public List<String> Sintomas = new List<String>();
 
-    public PlanoSaude Plano;
+    public PlanoSaude Plano {get; set;}
     public List<Pagamento> Pagamentos { get; set; }
 
     public Paciente(string nome, DateTime dataNascimento, string cpf, string sexo, PlanoSaude plano) : base(nome, dataNascimento, cpf){
@@ -36,7 +36,7 @@ class Paciente : Pessoa{
     public void AdicionarPlano(PlanoSaude plano){
         if (plano != null){
             Plano = plano!;
-        }{
+        } else {
             throw new Exception("Plano inválido");
         }
     }

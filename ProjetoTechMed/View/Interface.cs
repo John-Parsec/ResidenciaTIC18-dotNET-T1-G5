@@ -392,7 +392,7 @@ public static void MenuPlano(Consultorio consultorio)
 {
     bool sair = false;
     List<string> menu = new List<string>{
-        "Inserir Plano", "Associar Plano a um Paciente", "Listar Planos"
+        "Inserir Plano", "Mudar/Associar Plano a um Paciente", "Listar Planos"
     };
 
     while (!sair)

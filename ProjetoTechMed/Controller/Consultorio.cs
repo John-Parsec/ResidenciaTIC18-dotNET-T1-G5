@@ -826,7 +826,7 @@ class Consultorio{
 
     # region Plano
     public void AssociaPlano(){
-        Console.WriteLine("--------Associação de Plano--------");
+        Console.WriteLine("--------Mudança/Associação de Plano--------");
         System.Console.WriteLine("Digite o CPF do paciente: ");
         string cpf = Console.ReadLine()!;
 
@@ -840,15 +840,15 @@ class Consultorio{
 
         var plano = planos.Find(p => p.Titulo == nomePlano)!;
 
-        try {
-            if (plano == null) {
+        if (plano == null) {
                 Console.WriteLine("Plano não encontrado!");
                 return;
-            } else {
-                int index = pacientes.FindIndex(p => p.CPF == cpf)!;
-                pacientes[index].AdicionarPlano(plano);
-                Console.WriteLine("Plano associado com sucesso!");
-            }
+        }
+
+        try {
+            int index = pacientes.FindIndex(p => p.CPF == cpf)!;
+            pacientes[index].AdicionarPlano(plano);
+            Console.WriteLine("Plano associado com sucesso!");
         } catch (Exception error) {
             Console.WriteLine($"{error.Message}");
         }
