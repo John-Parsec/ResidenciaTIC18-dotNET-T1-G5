@@ -2,7 +2,7 @@ namespace AvaliacaoEquipe;
 
 public class PlanoSaude{
     public string? Titulo {get; set;}
-    private double ValorMes { 
+    public double ValorMes { 
         get {
             return ValorMes;
         }
