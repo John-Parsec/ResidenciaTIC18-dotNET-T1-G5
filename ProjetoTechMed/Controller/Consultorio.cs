@@ -165,7 +165,7 @@ class Consultorio{
             Console.Write("Digite o CPF do paciente: ");
             cpf = Console.ReadLine()!;
 
-            paciente = pacientes.Find(item => item.CPF == cpf);
+            paciente = pacientes.Find(item => item.CPF == cpf)!;
             paciente.ListarPagamentos();
         } 
         catch (Exception error) {
@@ -389,7 +389,7 @@ class Consultorio{
             cpf = Console.ReadLine()!;
 
             if ( ExistePaciente(cpf) ) {
-                Paciente paciente = pacientes.Find(item => item.CPF == cpf);
+                Paciente paciente = pacientes.Find(item => item.CPF == cpf)!;
                 
                 pacientes.Remove(paciente);
                 Console.WriteLine($"Paciente removido com sucesso!");
