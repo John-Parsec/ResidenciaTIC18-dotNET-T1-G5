@@ -107,7 +107,7 @@ class Interface{
                 // Lógica para listar os pagamentos
                 Util.limparTela();
                 Util.Logo();
-                // consultorio.ListarPagamentosPorPaciente();
+                consultorio.ListarPagamentosPorPaciente();
                 Util.pausa();
                 break;
             default:
