@@ -835,13 +835,17 @@ class Consultorio{
 
         var plano = planos.Find(p => p.Titulo == nomePlano)!;
 
-        if (plano == null){
-            Console.WriteLine("Plano não encontrado!");
-            return;
-        }else{
-            int index = pacientes.FindIndex(p => p.CPF == cpf)!;
-            pacientes[index].AdicionarPlano(plano);
-            Console.WriteLine("Plano associado com sucesso!");
+        try {
+            if (plano == null) {
+                Console.WriteLine("Plano não encontrado!");
+                return;
+            } else {
+                int index = pacientes.FindIndex(p => p.CPF == cpf)!;
+                pacientes[index].AdicionarPlano(plano);
+                Console.WriteLine("Plano associado com sucesso!");
+            }
+        } catch (Exception error) {
+            Console.WriteLine($"{error.Message}");
         }
     }
 
