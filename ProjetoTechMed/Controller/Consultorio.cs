@@ -156,15 +156,20 @@ class Consultorio{
         }
     }
 
-    public void ListarPagamentosPorPaciente(Paciente paciente)
+    public void ListarPagamentosPorPaciente()
     {
-        foreach(Pagamento pgmt in paciente.Pagamentos.ToList())
-        {
-                Console.Write("Tipo: " + pgmt.Tipo);
-                Console.Write(" | Valor bruto: " + pgmt.ValorBruto);
-                Console.Write(" | Descrição: " + pgmt.Descricao);
-                Console.WriteLine(" | Desconto: " + pgmt.Desconto);
-                Console.WriteLine(" - Data e hora: " + pgmt.DataHora.ToString("dd/MM/yyyy HH:mm:ss"));
+        try {
+            string cpf;
+            Paciente paciente;
+
+            Console.Write("Digite o CPF do paciente: ");
+            cpf = Console.ReadLine()!;
+
+            paciente = pacientes.Find(item => item.CPF == cpf);
+            paciente.ListarPagamentos();
+        } 
+        catch (Exception error) {
+            Console.WriteLine($"Aviso: Paciente não encontrado.");
         }
     }
     
@@ -340,23 +345,33 @@ class Consultorio{
         
         Console.Write("Digite o CPF do paciente: ");
         cpf = Console.ReadLine()!;
-
-        Console.Write("Digite o sexo do paciente (feminino/masculino): ");
-        sexo = Console.ReadLine()!;
-
-        try{
-            Paciente p = new Paciente(nome, dataNascimento, cpf, sexo);
-        }catch (Exception e){
-            Console.WriteLine(e.Message);
-            return;
-        }
-
+        
         if(ExistePaciente(cpf)){
             Console.WriteLine("Paciente já cadastrado!");
             return;
-        }else{
-            pacientes.Add(new Paciente(nome, dataNascimento, cpf, sexo));
+        }
+        
+        Console.Write("Digite o sexo do paciente (feminino/masculino): ");
+        sexo = Console.ReadLine()!.ToLower();
+
+        Console.Write("Digite o nome do plano: ");
+        string nomePlano = Console.ReadLine()!;
+
+        var plano = planos.Find(p => p.Titulo == nomePlano)!;
+
+        if (plano == null){
+            Console.WriteLine("Plano não encontrado!");
+            return;
+        }
+
+        try{
+            Paciente p = new Paciente(nome, dataNascimento, cpf, sexo, plano);
+
+            pacientes.Add(p);
             Console.WriteLine("Paciente cadastrado com sucesso!");
+        }catch (Exception e){
+            Console.WriteLine(e.Message);
+            return;
         }
     }
 

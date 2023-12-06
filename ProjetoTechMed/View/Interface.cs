@@ -51,7 +51,7 @@ class Interface{
 
   public static void MenuPacientes(Consultorio consultorio){
     bool sair = false;
-    List<string> menu = new List<string>{ "Inserir Paciente", "Adicionar Sintoma", "Remover Paciente", "Listar Pacientes"};
+    List<string> menu = new List<string>{ "Inserir Paciente", "Adicionar Sintoma", "Remover Paciente", "Listar Pacientes", "Ralizar Pagamento", "Listar Pagamentos" };
    
     while (!sair){
         Util.limparTela();
@@ -94,6 +94,20 @@ class Interface{
                 Util.limparTela();
                 Util.Logo();
                 consultorio.ListaDePacientes();
+                Util.pausa();
+                break;
+            case 5:
+                // Lógica para adicionar um pagamento
+                Util.limparTela();
+                Util.Logo();
+                consultorio.AdicionarPagamento();
+                Util.pausa();
+                break;
+            case 6:
+                // Lógica para listar os pagamentos
+                Util.limparTela();
+                Util.Logo();
+                // consultorio.ListarPagamentosPorPaciente();
                 Util.pausa();
                 break;
             default:
@@ -252,7 +266,8 @@ class Interface{
         "Atendimentos em aberto em ordem decrescente pela data de início",
         "Médicos em ordem decrescente da quantidade de atendimentos concluídos",
         "Atendimentos cuja suspeita ou diagnóstico final contenha determinada palavra",
-        "Os 10 exames mais utilizados nos atendimentos"
+        "Os 10 exames mais utilizados nos atendimentos",
+        "Listar paciente por sexo"
     };
 
     while (!sair)
@@ -351,6 +366,14 @@ class Interface{
                 consultorio.ExamesMaisUtilizados();
                 Util.pausa();
                 break;
+            case 11:
+                // Lógica para Listar Paciente por sexo
+                Util.limparTela();
+                Util.Logo();
+                Console.WriteLine("Gerando relatório de Pacientes por sexo...");
+                consultorio.RelatorioPacienteSexo();
+                Util.pausa();
+                break;
             default:
                 Util.limparTela();
                 Util.Logo();
@@ -393,21 +416,21 @@ public static void MenuPlano(Consultorio consultorio)
                 // Lógica para inserir um plano
                 Util.limparTela();
                 Util.Logo();
-                // consultorio.AdicionarPlano();
+                consultorio.AdicionarPlano();
                 Util.pausa();
                 break;
             case 2:
                 // Lógica para associar um plano a um paciente
                 Util.limparTela();
                 Util.Logo();
-                // consultorio.AssociarPlano();
+                consultorio.AssociaPlano();
                 Util.pausa();
                 break;
             case 3:
                 // Lógica para listar os planos
                 Util.limparTela();
                 Util.Logo();
-                // consultorio.ListarPlanos();
+                consultorio.ListarPlanos();
                 Util.pausa();
                 break; 
             default:
