@@ -2,6 +2,8 @@ namespace AvaliacaoEquipe;
 
 public class PlanoSaude{
     public string? Titulo {get; set;}
+
+    private double valorMes {get; set;}
     public double ValorMes { 
         get {
             return ValorMes;
@@ -10,7 +12,8 @@ public class PlanoSaude{
             if(value <= 0){
                 throw new Exception("Valor do plano não pode ser negativo");
             }
-            ValorMes = value;
+            
+            valorMes = value;
         }
     }
 
